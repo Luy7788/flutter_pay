@@ -8,7 +8,7 @@
 build/
 pubspec.lock
 .flutter-plugins
-flutter
+# flutter
 IDEWorkspaceChecks.plist
 org.eclipse.buildship.core.prefs
 Breakpoints_v2.xcbkptlist
