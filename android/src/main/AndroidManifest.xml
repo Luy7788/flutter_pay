@@ -1,3 +1,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.hx.flutter_pay">
+    <application>
+        <activity
+            android:name=".wechat.WXEntryActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/DisablePreviewTheme" />
+        <activity-alias
+            android:name="${applicationId}.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:targetActivity="com.hx.flutter_pay.pay.wechat.WXEntryActivity"
+            android:theme="@style/DisablePreviewTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sdksample" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="${applicationId}.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:targetActivity="com.hx.flutter_pay.pay.wechat.WXEntryActivity"
+            android:theme="@style/DisablePreviewTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sdksample" />
+            </intent-filter>
+        </activity-alias>
+    </application>
 </manifest>
