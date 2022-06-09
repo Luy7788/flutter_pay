@@ -32,15 +32,15 @@ class WxPayRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['appId'] = this.appId;
-    data['partnerId'] = this.partnerId;
-    data['extData'] = this.extData;
-    data['nonceStr'] = this.nonceStr;
-    data['packageValue'] = this.packageValue;
-    data['prepayId'] = this.prepayId;
-    data['sign'] = this.sign;
-    data['timeStamp'] = this.timeStamp;
+    final Map<String, dynamic> data = {};
+    data['appId'] = appId;
+    data['partnerId'] = partnerId;
+    data['extData'] = extData;
+    data['nonceStr'] = nonceStr;
+    data['packageValue'] = packageValue;
+    data['prepayId'] = prepayId;
+    data['sign'] = sign;
+    data['timeStamp'] = timeStamp;
     return data;
   }
 }

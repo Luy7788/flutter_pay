@@ -18,14 +18,14 @@ class ChannelResult {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['msg'] = this.msg;
-    data['data'] = this.data;
+    final Map<String, dynamic> data = {};
+    data['code'] = code;
+    data['msg'] = msg;
+    data['data'] = data;
     return data;
   }
 
   bool isSuccess() {
-    return 200 == this.code;
+    return 200 == code;
   }
 }

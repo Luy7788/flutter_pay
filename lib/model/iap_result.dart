@@ -24,12 +24,12 @@ class IapResult {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['params'] = this.params;
-    data['goodsCode'] = this.goodsCode;
-    data['transactionId'] = this.transactionId;
-    data['errorMsg'] = this.errorMsg;
+    final Map<String, dynamic> data = {};
+    data['success'] = success;
+    data['params'] = params;
+    data['goodsCode'] = goodsCode;
+    data['transactionId'] = transactionId;
+    data['errorMsg'] = errorMsg;
     return data;
   }
 }

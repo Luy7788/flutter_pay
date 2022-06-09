@@ -50,12 +50,12 @@ class FlutterPay {
   //调起iap支付
   static Future<IapResult?> iapPay({String? goodsCode}) async {
     if (Platform.isIOS == false) return null;
-    Map _temp = Map();
+    Map _temp = {};
     _temp["goodsCode"] = goodsCode;
     var _result = await _channel.invokeMethod('IapPayAction', _temp);
     Map<String, dynamic> result = Map<String, dynamic>.from(_result);
     debugPrint('pay result: $result');
-    if (result != null) {
+    if (_result != null) {
       IapResult model = IapResult.fromJson(result);
       return model;
     }
@@ -65,7 +65,7 @@ class FlutterPay {
   //验证成功调用结束iap
   static Future finishIapPay({String? goodsCode}) async {
     if (Platform.isIOS == false) return;
-    Map _temp = Map();
+    Map _temp = {};
     _temp["goodsCode"] = goodsCode;
     var _result = await _channel.invokeMethod('finalIapPay', _temp);
     // Map<String, dynamic> result = Map<String, dynamic>.from(_result);
@@ -94,8 +94,8 @@ class FlutterPay {
   static void methodListener() {
     //接收原生传递来的MethodChannel参数
     _channel.setMethodCallHandler((call) async {
-      print("flutter_pay 接收到原生调用 -> method :${call.method}");
-      print("flutter_pay 接收到原生调用 -> arguments :${call.arguments}");
+      debugPrint("flutter_pay 接收到原生调用 -> method :${call.method}");
+      debugPrint("flutter_pay 接收到原生调用 -> arguments :${call.arguments}");
       switch (call.method) {
         case "IapCheckOut":
           Map<String, dynamic> result = Map<String, dynamic>.from(call.arguments);
