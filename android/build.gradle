@@ -1,4 +1,4 @@
-group 'com.fw.flutter_pay'
+group 'com.hx.flutter_pay'
 version '1.0'
 
 buildscript {

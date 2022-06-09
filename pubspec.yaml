@@ -28,7 +28,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.fw.flutter_pay
+        package: com.hx.flutter_pay
         pluginClass: FlutterPayPlugin
       ios:
         pluginClass: FlutterPayPlugin

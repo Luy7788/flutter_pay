@@ -1,4 +1,4 @@
-package com.fw.flutter_pay;
+package com.hx.flutter_pay;
 
 import androidx.annotation.NonNull;
 
