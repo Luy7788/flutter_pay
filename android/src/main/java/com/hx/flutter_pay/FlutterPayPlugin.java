@@ -1,4 +1,4 @@
-package com.hx.flutter_pay.pay;
+package com.hx.flutter_pay;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,7 +62,7 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
 
     public static void registerWith(Registrar registrar) {
         final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_pay");
-        channel.setMethodCallHandler(new com.hx.flutter_pay.pay.FlutterPayPlugin());
+        channel.setMethodCallHandler(new FlutterPayPlugin());
     }
 
     @Override
