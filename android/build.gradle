@@ -2,34 +2,76 @@ group 'com.hx.flutter_pay'
 version '1.0'
 
 buildscript {
+
     repositories {
+        maven { url "https://oss.sonatype.org/content/groups/public" }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+//        maven {
+//            url "http://mvn.mob.com/android"
+//        }
         google()
-        mavenCentral()
+        jcenter()
+        mavenLocal()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:3.5.0'
     }
 }
 
 rootProject.allprojects {
     repositories {
+        maven { url "https://oss.sonatype.org/content/groups/public" }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+//        maven {
+//            url "http://mvn.mob.com/android"
+//        }
         google()
-        mavenCentral()
+        jcenter()
+        mavenLocal()
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
     defaultConfig {
         minSdkVersion 16
     }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.5'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation files("libs/alipaySdk-15.7.9-20200727142846.aar")
 }
