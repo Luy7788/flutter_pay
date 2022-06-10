@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.gdhuanyan.pay.FlutterChannelHelper;
-import com.gdhuanyan.pay.PayManager;
+import com.hx.flutter_pay.pay.FlutterChannelHelper;
+import com.hx.flutter_pay.pay.PayManager;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;

@@ -1,7 +1,7 @@
 package com.hx.flutter_pay.pay.alipay.util;
 
 
-import com.gdhuanyan.pay.alipay.SignUtils;
+import com.hx.flutter_pay.pay.alipay.SignUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

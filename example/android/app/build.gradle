@@ -27,19 +27,19 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     compileSdkVersion 29
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    signingConfigs {
-        config {
-            keyAlias 'hyim'
-            keyPassword 'Hy!168198'
-            storeFile file('../hyim.keystore')
-            storePassword 'Hy!168198'
-        }
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//
+//    signingConfigs {
+//        config {
+//            keyAlias 'hyim'
+//            keyPassword 'Hy!168198'
+//            storeFile file('../hyim.keystore')
+//            storePassword 'Hy!168198'
+//        }
+//    }
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.hx.flutter_pay_example"
@@ -52,15 +52,15 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
             shrinkResources true
-            useProguard true //减小体积
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
             ext.enableCrashlytics = false
         }
     }

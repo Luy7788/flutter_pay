@@ -1,7 +1,7 @@
 package com.hx.flutter_pay.pay.model;
 
-import com.gdhuanyan.pay.consts.SendErrorEnum;
-import com.gdhuanyan.pay.util.BeanUtils;
+import com.hx.flutter_pay.pay.consts.SendErrorEnum;
+import com.hx.flutter_pay.pay.util.BeanUtils;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -62,9 +62,9 @@ android {
         minSdkVersion 16
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
+//    lintOptions {
+//        disable 'InvalidPackage'
+//    }
 }
 
 dependencies {

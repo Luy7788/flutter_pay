@@ -13,8 +13,8 @@ import androidx.annotation.NonNull;
 
 import com.alipay.sdk.app.EnvUtils;
 import com.alipay.sdk.app.PayTask;
-import com.gdhuanyan.pay.model.FlutterResult;
-import com.gdhuanyan.pay.util.MapUtil;
+import com.hx.flutter_pay.pay.model.FlutterResult;
+import com.hx.flutter_pay.pay.util.MapUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
