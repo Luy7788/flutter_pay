@@ -70,8 +70,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.5'
-    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+//    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
+//    implementation 'com.google.code.gson:gson:2.8.6'
+//    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation files("libs/alipaySdk-15.7.9-20200727142846.aar")
 }
