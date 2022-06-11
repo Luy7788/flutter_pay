@@ -1,4 +1,4 @@
-package com.hx.flutter_pay.pay;
+package com.hx.flutter_pay;
 
 import android.app.Activity;
 import android.content.Context;
