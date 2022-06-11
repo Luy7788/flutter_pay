@@ -46,7 +46,7 @@ public class FlutterChannelHelper implements EventChannel.StreamHandler {
     }
 
     public static FlutterChannelHelper getInstance() {
-        return ManagerHolder.INSTANCE;
+        return FlutterChannelHelper.ManagerHolder.INSTANCE;
     }
 
     private void setMethodChannel(MethodChannel channel) {

@@ -2,7 +2,7 @@
   package="com.hx.flutter_pay">
     <application>
         <activity
-            android:name=".wechat.WXEntryActivity"
+            android:name="com.hx.flutter_pay.pay.wechat.WXEntryActivity"
             android:launchMode="singleTask"
             android:theme="@style/DisablePreviewTheme" />
         <activity-alias
