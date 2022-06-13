@@ -6,7 +6,6 @@
 //
 
 #import "PaySdkManager.h"
-#import <StoreKit/StoreKit.h>
 #import "InAppPurTool.h"
 
 #define kAppPayUnFinishOrderKey @"UnFinishOrder"
@@ -49,6 +48,7 @@
 }
 
 - (BOOL)isCanPay {
+#ifdef IapPay
     //是否允许内购
     if ([SKPaymentQueue canMakePayments]) {
         NSLog(@"用户允许内购");
@@ -57,14 +57,20 @@
         NSLog(@"用户不允许内购");
         return NO;
     }
+#else
+    return true;
+#endif
 }
 
 - (void)setupIap:(bool)isSandBox{
+#ifdef IapPay
     [InAppPurTool sharedInAppPurTool].isSandBox = isSandBox;
+#endif
 }
 
 - (void)payAction:(NSString *)goodsCode
            finish:(PayFinifshBlock)finishBlock {
+#ifdef IapPay
     __weak __typeof(self)weakSelf = self;
     self.finishBlock = finishBlock;
     GoodsCode = goodsCode;
@@ -78,15 +84,20 @@
             weakSelf.finishBlock(goodsCode, result.transaction_id, result.msg, NO, nil);
         }
     }];
+#endif
 }
 
 //验证成功后调用
 - (void)finishPayAction:(NSString *)goodsCode {
+#ifdef IapPay
     [[NSNotificationCenter defaultCenter] postNotificationName:InAppPurUploadReceiptToServerDidSuccessKey object:nil];
     [self saveUserGoodsCode:nil];
+    
+#endif
 }
 
 - (void)applicationIapWithFinished:(PayFinifshBlock)checkOutBlock {
+#ifdef IapPay
     __weak __typeof(self)weakSelf = self;
     [InAppPurTool hy_applicationIapWithFinishedBlock:^(InAppPurResult * _Nonnull result) {
         NSString *goodsCode = [InAppPurTool getCurrentTransaction].payment.applicationUsername;
@@ -100,6 +111,7 @@
             checkOutBlock(goodsCode, result.transaction_id, result.msg, NO, nil);
         }
     }];
+#endif
 }
 
 - (NSDictionary *)_checkIsLoginAndUploadToServerWithReceipt:(NSData *)receipt goodsCode:(NSString *)goodsCode transactionId:(NSString *)transactionId {
@@ -117,80 +129,6 @@
    NSLog(@"请求服务端applicationUsername %@", [self getUnFinishGoodsCode]);
    
    return dict;
-//    return [self _uploaReceiptToServerWithReceipt:receipt productID:productID transactionId:transactionId];
-}
-
-//FIXME:TEST
-- (void)_uploaReceiptToServerWithReceipt:(NSData *)receipt productID:(NSString *)productID {
-
-    __weak __typeof(self)weakSelf = self;
-    NSLog(@"uploaReceiptToServerWithReceipt %@",receipt);
-
-    //获取NSURLSession对象
-    NSURLSession *session = [NSURLSession sharedSession];
-    //创建请求
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.2.8:9999/pay/ios/iap"]];
-    request.HTTPMethod = @"POST";
-    [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-
-    NSString *encodeStr = [receipt base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    //    NSData *payloadData = [payload dataUsingEncoding:NSUTF8StringEncoding];
-    //    request.HTTPBody = payloadData;
-    //    NSString *payload = [NSString stringWithFormat:@"{\"payload\" : \"%@\"}", encodeStr];
-    //    request.HTTPBody = [payload dataUsingEncoding:NSUTF8StringEncoding];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setValue:encodeStr forKey:@"payload"];
-    [dict setValue:productID forKey:@"goodsCode"];
-    [dict setValue:@"1000000736118578" forKey:@"transactionId"];
-    [dict setValue:@"1000000736118578" forKey:@"transactionCode"];
-    NSString *jsonString = [self _convertToJsonData:dict];
-    request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"请求服务端request %@", request);
-    NSLog(@"请求服务端jsonString %@", jsonString);
-    NSLog(@"请求服务端HTTPBody %@", request.HTTPBody);
-    NSLog(@"请求服务端applicationUsername %@", [self getUnFinishGoodsCode]);
-    //创建任务
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (data != nil) {
-            weakSelf.receiptTime = 0;
-            NSError *err;
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data
-                                                                options:NSJSONReadingMutableContainers
-                                                                  error:&err];
-            NSLog(@"task data: %@",dic);
-            NSNumber *code = dic[@"code"];
-            if(code.integerValue == 500){
-                weakSelf.receiptTime++;
-                if (weakSelf.receiptTime < 5) {
-                    // 隔5秒再请求一次 总共请求5次
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [self _uploaReceiptToServerWithReceipt:receipt productID:productID];
-                    });
-                }
-            } else {
-//                if(code.integerValue == 200) {
-                    //验证成功后调用
-                    [[NSNotificationCenter defaultCenter] postNotificationName:InAppPurUploadReceiptToServerDidSuccessKey object:nil];
-                    [weakSelf saveUserGoodsCode:nil];
-//                }
-            }
-        }
-        if (response != nil) {
-            NSLog(@"task response: %@",response);
-        }
-        if (error != nil) {
-            NSLog(@"task error: %@",response);
-            weakSelf.receiptTime++;
-            if (weakSelf.receiptTime < 5) {
-                // 隔5秒再请求一次 总共请求5次
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self _uploaReceiptToServerWithReceipt:receipt productID:productID];
-                });
-            }
-        }
-    }];
-    //启动任务
-    [task resume];
 }
 
 - (NSString *)_convertToJsonData:(NSDictionary *)dict {
