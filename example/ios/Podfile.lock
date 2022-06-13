@@ -2,10 +2,16 @@ PODS:
   - Flutter (1.0.0)
   - flutter_pay (0.0.1):
     - Flutter
+    - WechatOpenSDK (~> 1.8.7.1)
+  - WechatOpenSDK (1.8.7.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_pay (from `.symlinks/plugins/flutter_pay/ios`)
+
+SPEC REPOS:
+  trunk:
+    - WechatOpenSDK
 
 EXTERNAL SOURCES:
   Flutter:
@@ -15,7 +21,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_pay: 31360e886ba24bbc73b8a87084b30752d9f3082f
+  flutter_pay: cc406c765a1e06de87a8784ba024ea2f5e8981e2
+  WechatOpenSDK: 6a4d1436c15b3b5fe2a0bd383f3046010186da44
 
 PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
 
