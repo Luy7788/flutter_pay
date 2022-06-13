@@ -29,8 +29,6 @@ FlutterMethodChannel *_methodChannel;
 
 	NSLog(@"flutter_pay::call.method %@", call.method);
 	NSLog(@"flutter_pay::call.arguments %@", call.arguments);
-
-#ifdef WeChatPay
 	if([@"IapPayAction" isEqualToString:call.method]) {
 		//调起iap支付
 		NSDictionary *params = (NSDictionary *)call.arguments;
@@ -65,9 +63,6 @@ FlutterMethodChannel *_methodChannel;
 	} else {
 		result(FlutterMethodNotImplemented);
 	}
-#else
-    
-#endif
 }
 
 - (void)invokeMethodCheckOutIap:(NSDictionary *)sender {

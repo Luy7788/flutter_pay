@@ -5,7 +5,7 @@
 //  Created by Luy on 2020/10/29.
 //
 
-#define IapPay 1
+//#define IapPay 1
 
 static NSString *const InAppPurUploadReceiptToServerDidSuccessKey = @"InAppPurUploadReceiptToServerDidSuccess";
 
