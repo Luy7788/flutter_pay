@@ -61,13 +61,14 @@ class _MyAppState extends State<MyApp> {
             TextButton(
               onPressed: () async {
                 WxPayRequest userInfo = WxPayRequest(
-                    partnerId: "1584480061",
-                    appId: "wxa82f72397ae1a209",
-                    nonceStr: "BW4HRCT91uYp3d6g",
-                    packageValue: "Sign=WXPay",
-                    prepayId: "wx26233056560300f2a36c702c7c06070000",
-                    sign: "1C2DCB51C061E2A7CA5EB437F1980AB1",
-                    timeStamp: "1603726256");
+                  partnerId: "1584480061",
+                  appId: "wxa82f72397ae1a209",
+                  nonceStr: "BW4HRCT91uYp3d6g",
+                  packageValue: "Sign=WXPay",
+                  prepayId: "wx26233056560300f2a36c702c7c06070000",
+                  sign: "1C2DCB51C061E2A7CA5EB437F1980AB1",
+                  timeStamp: "1603726256",
+                );
                 await FlutterPay.payWithWechat(userInfo);
               },
               child: const Padding(
