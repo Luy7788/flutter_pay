@@ -9,6 +9,8 @@
 
 #import "InAppPurTool.h"
 
+#ifdef IapPay
+
 @interface InAppPurTool ()<SKProductsRequestDelegate, SKPaymentTransactionObserver>
 {
     
@@ -364,7 +366,7 @@
                 transaction_id = item[@"transaction_id"];
                 //服务器二次验证
                if (self.iapCompletedBlock) {
-                   self.iapCompletedBlock([InAppPurResult resultWithResult:@"1" data:receiptData msg:@"苹果制服完成" transactionId:transaction_id]);
+                   self.iapCompletedBlock([InAppPurResult resultWithResult:@"1" data:receiptData msg:@"苹果支付完成" transactionId:transaction_id]);
                }
             }
         }
@@ -373,3 +375,5 @@
 
 
 @end
+
+#endif

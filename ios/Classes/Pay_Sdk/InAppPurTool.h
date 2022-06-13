@@ -5,12 +5,15 @@
 //  Created by Luy on 2020/10/29.
 //
 
-#import <Foundation/Foundation.h>
-
-#import <StoreKit/StoreKit.h>
-#import "InAppPurResult.h"
+#define IapPay 1
 
 static NSString *const InAppPurUploadReceiptToServerDidSuccessKey = @"InAppPurUploadReceiptToServerDidSuccess";
+
+#import <Foundation/Foundation.h>
+#import "InAppPurResult.h"
+
+#ifdef IapPay
+#import <StoreKit/StoreKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,3 +46,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
