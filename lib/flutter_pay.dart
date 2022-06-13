@@ -17,6 +17,10 @@ class FlutterPay {
     return version;
   }
 
+  /*初始化方法
+  * iapLaunchCheckout IAP支付APP启动检查回调
+  * wechatPayResult 微信支付结果回调
+  * */
   static void initConfig({
     bool isIapSandBox = false,
     void Function(IapResult result)? iapLaunchCheckout,
@@ -32,6 +36,7 @@ class FlutterPay {
     }
   }
 
+  //调起微信支付
   static Future<ChannelResult> payWithWechat(WxPayRequest request) async {
     dynamic _temp =
         await _channel.invokeMethod("payWithWechat", request.toJson());
@@ -40,6 +45,7 @@ class FlutterPay {
     return result;
   }
 
+  //调起支付宝支付
   static Future<ChannelResult> payWithAliPay(String payStr) async {
     dynamic _temp = await _channel.invokeMethod("payWithAlipay", payStr);
     Map<String, dynamic> _result = Map<String, dynamic>.from(_temp);
@@ -97,12 +103,14 @@ class FlutterPay {
       debugPrint("flutter_pay 接收到原生调用 -> method :${call.method}");
       debugPrint("flutter_pay 接收到原生调用 -> arguments :${call.arguments}");
       switch (call.method) {
+        //IAP检查通知
         case "IapCheckOut":
           Map<String, dynamic> result = Map<String, dynamic>.from(call.arguments);
           IapResult model = IapResult.fromJson(result);
           _launchCheckOutIap(model);
           break;
 
+        //微信支付结果回调
         case "wxPayResult":
           Map<String, dynamic> result = Map<String, dynamic>.from(call.arguments);
           int code = result['code'] ?? 0;
