@@ -44,7 +44,9 @@ class FlutterPay {
     });
   }
 
-  //调起微信支付
+  ///调起微信支付
+  ///WxPayRequest 请求参数，具体看注释
+  ///ChannelResult 返回调起结果,非支付结果
   static Future<ChannelResult> payWithWechat(WxPayRequest request) async {
     dynamic _temp = await _channel.invokeMethod("payWithWechat", request.toJson());
     Map<String, dynamic> _result = Map<String, dynamic>.from(_temp);
@@ -52,7 +54,8 @@ class FlutterPay {
     return result;
   }
 
-  //调起支付宝支付
+  ///调起支付宝支付
+  ///ChannelResult 返回调起结果,非支付结果
   static Future<ChannelResult> payWithAliPay(String payStr) async {
     dynamic _temp = await _channel.invokeMethod("payWithAlipay", payStr);
     Map<String, dynamic> _result = Map<String, dynamic>.from(_temp);
@@ -60,7 +63,8 @@ class FlutterPay {
     return result;
   }
 
-  //调起iap支付
+  ///调起iap支付
+  ///返回支付结果，仍需与接口进一步核对订单
   static Future<IapResult?> iapPay({String? goodsCode}) async {
     if (Platform.isIOS == false) return null;
     Map _temp = {};
