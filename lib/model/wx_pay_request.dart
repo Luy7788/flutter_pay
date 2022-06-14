@@ -1,3 +1,19 @@
+///
+///android;
+//   request.appId = "wxd930ea5d5a258f4f";
+//   request.partnerId = "1900000109";
+//   request.prepayId= "1101000000140415649af9fc314aa427",;
+//   request.packageValue = "Sign=WXPay";
+//   request.nonceStr= "1101000000140429eb40476f8896f4c9";
+//   request.timeStamp= "1398746574";
+//   request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
+/// IOS
+// request.partnerId = @"10000100";
+// request.prepayId= @"1101000000140415649af9fc314aa427";
+// request.package = @"Sign=WXPay";
+// request.nonceStr= @"a462b76e7436e98e0ed6e13c64b4fd1c";
+// request.timeStamp= @"1397527777";
+// request.sign= @"582282D72DD2B03AD892830965F428CB16E7A256";
 class WxPayRequest {
   String? appId;
   String? partnerId;
