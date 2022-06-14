@@ -43,15 +43,12 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
 
             @Override
             public void error(String errorCode, @Nullable String errorMessage, @Nullable Object errorDetails) {
-
             }
 
             @Override
             public void notImplemented() {
-
             }
         });
-        PayManager.init(context);
     }
 
     public static void registerWith(Registrar registrar) {
@@ -63,6 +60,9 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
 
         switch (call.method) {
+            case "init":
+                PayManager.init(this.context);
+                break;
             case "getPlatformVersion":
                 result.success("Android " + android.os.Build.VERSION.RELEASE);
                 break;

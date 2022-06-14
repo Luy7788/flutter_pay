@@ -29,11 +29,13 @@ class FlutterPay {
     methodListener();
     _iapLaunchCallback = iapLaunchCheckout;
     _wechatPayCallback = wechatPayResult;
-    if (Platform.isIOS == true) {
-      Map _temp = {};
-      _temp["iapSandBox"] = isIapSandBox;
-      _channel.invokeMethod('iapSetup', _temp);
-    }
+    _channel.invokeMethod('init').then((value) {
+      if (Platform.isIOS == true) {
+        Map _temp = {};
+        _temp["iapSandBox"] = isIapSandBox;
+        _channel.invokeMethod('iapSetup', _temp);
+      }
+    });
   }
 
   //调起微信支付
