@@ -15,6 +15,8 @@ typedef void(^PayFinifshBlock)(NSString *goodsCode,
                                BOOL success,
                                NSDictionary * _Nullable params);
 
+typedef void(^WeChatPayBlock)(int code, NSString *msg, NSString *returnKey);
+
 @interface PaySdkManager : NSObject
 
 + (instancetype)sharedInstance;
@@ -23,7 +25,10 @@ typedef void(^PayFinifshBlock)(NSString *goodsCode,
 - (BOOL)initSDK:(NSDictionary *)argument;
 
 - (void)wechatPayAction:(NSDictionary *)argument
-             completion:(void (^ __nullable)(BOOL success))completion;
+       invokeCompletion:(void (^ __nullable)(BOOL success))completion
+              payResult:(WeChatPayBlock)payResult;
+
+- (void)wechatPayResult:(int)code msg:(NSString *)message returnKey:(NSString *)returnKey;
 
 #pragma mark - IAP
 - (BOOL)isCanPay;

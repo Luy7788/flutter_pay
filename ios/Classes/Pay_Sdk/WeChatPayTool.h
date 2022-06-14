@@ -6,10 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WXApi.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WeChatPayTool : NSObject
+
+typedef void (^reqonReqCallback)(BaseReq * req);
+typedef void (^respCallback)(BaseResp * resp);
+
+@interface WeChatPayTool : NSObject <WXApiDelegate>
 
 + (instancetype)sharedInstance;
 

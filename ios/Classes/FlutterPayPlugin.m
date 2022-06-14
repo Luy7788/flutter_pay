@@ -9,6 +9,7 @@
 #endif
 
 #import "PaySdkManager.h"
+#import "WeChatPayTool.h"
 
 FlutterMethodChannel *_methodChannel;
 
@@ -74,20 +75,21 @@ FlutterMethodChannel *_methodChannel;
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     } else if ([@"payWithWechat" isEqualToString:call.method]){
         //调起微信支付
-        [[PaySdkManager sharedInstance] wechatPayAction:call.arguments completion:^(BOOL success) {
+        [[PaySdkManager sharedInstance] wechatPayAction:call.arguments invokeCompletion:^(BOOL success) {
             result(@(success));
+        } payResult:^(int code, NSString * _Nonnull msg, NSString * _Nonnull returnKey) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+            dict[@"msg"] = msg;
+            dict[@"returnKey"] = returnKey;
+            dict[@"code"] = @(code);
+            [_methodChannel invokeMethod:@"wxPayResult" arguments:dict];
         }];
     } else {
         result(FlutterMethodNotImplemented);
     }
 }
 
-- (void)invokeMethodCheckOutIap:(NSDictionary *)sender {
-	//检测结果通知
-	[_methodChannel invokeMethod:@"IapCheckOut" arguments:sender];
-}
-
-#pragma mark - appdelegate
+#pragma mark - AppDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	NSLog(@"Pay SDK Plugin::application:didFinishLaunchingWithOptions");
 #ifdef IapPay
@@ -96,6 +98,30 @@ FlutterMethodChannel *_methodChannel;
 	});
 #endif
 	return true;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
+}
+
+- (BOOL)application:(UIApplication *)application
+              openURL:(NSURL *)url
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation {
+    return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:
+                (NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
+}
+
+- (BOOL)application:(UIApplication *)application
+    continueUserActivity:(NSUserActivity *)userActivity
+      restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler {
+    return [WXApi handleOpenUniversalLink:userActivity delegate:WeChatPayTool.sharedInstance];
 }
 
 - (void)_checkoutUnfinish {
@@ -113,5 +139,9 @@ FlutterMethodChannel *_methodChannel;
 #endif
 }
 
+- (void)invokeMethodCheckOutIap:(NSDictionary *)sender {
+    //检测结果通知
+    [_methodChannel invokeMethod:@"IapCheckOut" arguments:sender];
+}
 
 @end

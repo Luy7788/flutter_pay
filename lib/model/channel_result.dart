@@ -1,3 +1,4 @@
+/*channel调用结果*/
 class ChannelResult {
   int? code;
   String? msg;

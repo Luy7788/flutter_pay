@@ -6,7 +6,14 @@
 //
 
 #import "WeChatPayTool.h"
-#import "WXApi.h"
+#import "PaySdkManager.h"
+
+@interface WeChatPayTool ()
+
+@property (nonatomic, copy) reqonReqCallback _reqCallback;
+@property (nonatomic, copy) respCallback _respCallback;
+
+@end
 
 @implementation WeChatPayTool
 
@@ -63,6 +70,11 @@
     }
 }
 
+- (void)setupOnReqCallback:(void (^ __nullable)(BaseReq * req))reqCallback
+            onRespCallback:(void (^ __nullable)(BaseResp * resp))respCallback {
+    self._reqCallback = reqCallback;
+    self._respCallback = respCallback;
+}
 
 - (void)payActionWithPartnerId:(NSString *)partnerId
                       prepayId:(NSString *)prepayId
@@ -79,6 +91,33 @@
     request.timeStamp = timeStamp;//1397527777;
     request.sign= sign;//@"582282D72DD2B03AD892830965F428CB16E7A256";
     [WXApi sendReq:request completion:completion];
+}
+
+#pragma mark - WXApiDelegate
+- (void)onReq:(BaseReq *)req {
+    if (self._reqCallback != nil) {
+        self._reqCallback(req);
+    }
+}
+
+- (void)onResp:(BaseResp *)resp {
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [dictionary setValue:[NSNumber numberWithInt:resp.errCode]
+                  forKey:@"errorCode"];
+    if (resp.errStr != nil) {
+        [dictionary setValue:resp.errStr forKey:@"errorMsg"];
+    }
+    if ([resp isKindOfClass:[PayResp class]]) {
+        // 支付
+        if (resp.errCode == WXSuccess) {
+        }
+        PayResp *payResp = (PayResp *)resp;
+        [[PaySdkManager sharedInstance] wechatPayResult:payResp.errCode msg:payResp.errStr returnKey:payResp.returnKey];
+    } else {
+        if (self._respCallback != nil) {
+            self._respCallback(resp);
+        }
+    }
 }
 
 @end

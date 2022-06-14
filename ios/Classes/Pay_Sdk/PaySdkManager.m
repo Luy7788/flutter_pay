@@ -20,6 +20,7 @@
 @property (nonatomic, assign) NSTimeInterval receiptTime;
 //@property (nonatomic, copy) NSString *applicationUsername;
 @property (nonatomic, copy) PayFinifshBlock finishBlock;
+@property (nonatomic, copy) WeChatPayBlock wechatResult;
 
 @end
 
@@ -43,13 +44,15 @@
 }
 
 - (void)wechatPayAction:(NSDictionary *)argument
-             completion:(void (^ __nullable)(BOOL success))completion  {
+       invokeCompletion:(void (^ __nullable)(BOOL success))completion
+              payResult:(WeChatPayBlock)payResult {
     NSString* partnerId = argument[@"partnerId"];
     NSString* prepayId = argument[@"prepayId"];
     NSString* packageValue = argument[@"packageValue"];
     NSString* nonceStr = argument[@"nonceStr"];
     NSString* timeStamp = argument[@"timeStamp"];
     NSString* sign = argument[@"sign"];
+    self.wechatResult = payResult;
     [[WeChatPayTool sharedInstance] payActionWithPartnerId:partnerId
                                                   prepayId:prepayId
                                                    package:packageValue
@@ -57,6 +60,12 @@
                                                       sign:sign
                                                  timeStamp:timeStamp.intValue
                                                 completion:completion];
+}
+
+- (void)wechatPayResult:(int)code msg:(NSString *)message returnKey:(NSString *)returnKey{
+    if (self.wechatResult != nil) {
+        self.wechatResult(code, message, returnKey);
+    }
 }
 
 #pragma mark - IAP
