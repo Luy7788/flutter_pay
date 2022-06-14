@@ -19,6 +19,8 @@ typedef void(^PayFinifshBlock)(NSString *goodsCode,
 
 + (instancetype)sharedInstance;
 
+- (void)initSDK;
+
 - (BOOL)isCanPay;
 
 - (void)setupIap:(bool)isSandBox;

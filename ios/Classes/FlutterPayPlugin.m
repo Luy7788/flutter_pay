@@ -35,7 +35,7 @@ FlutterMethodChannel *_methodChannel;
         BOOL canPay = [[PaySdkManager sharedInstance] isCanPay];
         result(@(canPay));
 #else
-        [[PaySdkManager sharedInstance] init];
+        [[PaySdkManager sharedInstance] initSDK];
         result(@YES);
 #endif
     } else if ([@"iapSetup" isEqualToString:call.method]) {

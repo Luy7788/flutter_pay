@@ -7,6 +7,7 @@
 
 #import "PaySdkManager.h"
 #import "InAppPurTool.h"
+#import "WXApi.h"
 
 #define kAppPayUnFinishOrderKey @"UnFinishOrder"
 
@@ -33,8 +34,9 @@
     return _instance;
 }
 
-- (void)init{
-    
+- (void)initSDK {
+    //向微信注册
+//       [WXApi registerApp:APP_ID universalLink:UNIVERSAL_LINK];
 }
 
 - (void)saveUserGoodsCode:(NSString *)code {
