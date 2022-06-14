@@ -25,11 +25,17 @@ class FlutterPay {
     bool isIapSandBox = false,
     void Function(IapResult result)? iapLaunchCheckout,
     void Function(bool success)? wechatPayResult,
+    String? appId,
+    String? universalLink,
   }) {
     methodListener();
     _iapLaunchCallback = iapLaunchCheckout;
     _wechatPayCallback = wechatPayResult;
-    _channel.invokeMethod('init').then((value) {
+    var argument = {
+      "appId": appId,
+      "universalLink": universalLink,
+    };
+    _channel.invokeMethod('init', argument).then((value) {
       if (Platform.isIOS == true) {
         Map _temp = {};
         _temp["iapSandBox"] = isIapSandBox;
@@ -40,8 +46,7 @@ class FlutterPay {
 
   //调起微信支付
   static Future<ChannelResult> payWithWechat(WxPayRequest request) async {
-    dynamic _temp =
-        await _channel.invokeMethod("payWithWechat", request.toJson());
+    dynamic _temp = await _channel.invokeMethod("payWithWechat", request.toJson());
     Map<String, dynamic> _result = Map<String, dynamic>.from(_temp);
     ChannelResult result = ChannelResult.fromJson(_result);
     return result;

@@ -7,7 +7,7 @@
 
 #import "PaySdkManager.h"
 #import "InAppPurTool.h"
-#import "WXApi.h"
+#import "WeChatPayTool.h"
 
 #define kAppPayUnFinishOrderKey @"UnFinishOrder"
 
@@ -34,10 +34,32 @@
     return _instance;
 }
 
-- (void)initSDK {
+#pragma mark - Wechat
+- (BOOL)initSDK:(NSDictionary *)argument {
     //向微信注册
-//       [WXApi registerApp:APP_ID universalLink:UNIVERSAL_LINK];
+    NSString *appId = argument[@"appId"];
+    NSString *universalLink = argument[@"universalLink"];
+    return [[WeChatPayTool sharedInstance] registerWithAppID:appId universalLink:universalLink];
 }
+
+- (void)wechatPayAction:(NSDictionary *)argument
+             completion:(void (^ __nullable)(BOOL success))completion  {
+    NSString* partnerId = argument[@"partnerId"];
+    NSString* prepayId = argument[@"prepayId"];
+    NSString* packageValue = argument[@"packageValue"];
+    NSString* nonceStr = argument[@"nonceStr"];
+    NSString* timeStamp = argument[@"timeStamp"];
+    NSString* sign = argument[@"sign"];
+    [[WeChatPayTool sharedInstance] payActionWithPartnerId:partnerId
+                                                  prepayId:prepayId
+                                                   package:packageValue
+                                                  nonceStr:nonceStr
+                                                      sign:sign
+                                                 timeStamp:timeStamp.intValue
+                                                completion:completion];
+}
+
+#pragma mark - IAP
 
 - (void)saveUserGoodsCode:(NSString *)code {
     if (code == nil) {

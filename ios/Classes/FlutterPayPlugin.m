@@ -31,14 +31,17 @@ FlutterMethodChannel *_methodChannel;
     NSLog(@"flutter_pay::call.arguments %@", call.arguments);
 
     if([@"init" isEqualToString:call.method]) {
+        //初始化
 #ifdef IapPay
         BOOL canPay = [[PaySdkManager sharedInstance] isCanPay];
         result(@(canPay));
 #else
-        [[PaySdkManager sharedInstance] initSDK];
-        result(@YES);
+        NSDictionary *params = (NSDictionary *)call.arguments;
+        BOOL res =[[PaySdkManager sharedInstance] initSDK:params];
+        result(@(res));
 #endif
     } else if ([@"iapSetup" isEqualToString:call.method]) {
+        //配置iap
         NSDictionary *params = (NSDictionary *)call.arguments;
         NSNumber *isSandbox = params[@"iapSandBox"];
         [[PaySdkManager sharedInstance] setupIap:isSandbox.boolValue];
@@ -69,6 +72,11 @@ FlutterMethodChannel *_methodChannel;
         result(@YES);
     } else if ([@"getPlatformVersion" isEqualToString:call.method]) {
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+    } else if ([@"payWithWechat" isEqualToString:call.method]){
+        //调起微信支付
+        [[PaySdkManager sharedInstance] wechatPayAction:call.arguments completion:^(BOOL success) {
+            result(@(success));
+        }];
     } else {
         result(FlutterMethodNotImplemented);
     }

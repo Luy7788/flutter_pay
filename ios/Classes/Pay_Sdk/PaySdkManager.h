@@ -19,8 +19,13 @@ typedef void(^PayFinifshBlock)(NSString *goodsCode,
 
 + (instancetype)sharedInstance;
 
-- (void)initSDK;
+#pragma mark - Wechat
+- (BOOL)initSDK:(NSDictionary *)argument;
 
+- (void)wechatPayAction:(NSDictionary *)argument
+             completion:(void (^ __nullable)(BOOL success))completion;
+
+#pragma mark - IAP
 - (BOOL)isCanPay;
 
 - (void)setupIap:(bool)isSandBox;
