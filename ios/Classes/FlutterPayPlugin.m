@@ -73,13 +73,16 @@ FlutterMethodChannel *_methodChannel;
 #pragma mark - appdelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	NSLog(@"Pay SDK Plugin::application:didFinishLaunchingWithOptions");
+#ifdef IapPay
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		[self _checkoutUnfinish];
 	});
+#endif
 	return true;
 }
 
 - (void)_checkoutUnfinish {
+#ifdef IapPay
 	__weak __typeof(self) weakSelf = self;
 	[[PaySdkManager sharedInstance] applicationIapWithFinished:^(NSString * _Nonnull goodsCode, NSString * _Nonnull transactionId, NSString * _Nonnull errorMsg, BOOL success, NSDictionary * _Nullable params) {
 	         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -90,6 +93,7 @@ FlutterMethodChannel *_methodChannel;
 	         dict[@"params"] = params;
 	         [weakSelf invokeMethodCheckOutIap:dict];
 	 }];
+#endif
 }
 
 
