@@ -10,7 +10,7 @@
 
 @interface WeChatPayTool ()
 
-@property (nonatomic, copy) reqonReqCallback _reqCallback;
+@property (nonatomic, copy) reqCallback _reqCallback;
 @property (nonatomic, copy) respCallback _respCallback;
 
 @end
@@ -70,8 +70,8 @@
     }
 }
 
-- (void)setupOnReqCallback:(void (^ __nullable)(BaseReq * req))reqCallback
-            onRespCallback:(void (^ __nullable)(BaseResp * resp))respCallback {
+- (void)setupOnReqCallback:(reqCallback)reqCallback
+            onRespCallback:(respCallback)respCallback {
     self._reqCallback = reqCallback;
     self._respCallback = respCallback;
 }

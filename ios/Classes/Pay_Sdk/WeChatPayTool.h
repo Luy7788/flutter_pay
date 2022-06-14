@@ -11,12 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef void (^reqonReqCallback)(BaseReq * req);
+typedef void (^reqCallback)(BaseReq * req);
 typedef void (^respCallback)(BaseResp * resp);
 
 @interface WeChatPayTool : NSObject <WXApiDelegate>
 
 + (instancetype)sharedInstance;
+
+- (void)setupOnReqCallback:(reqCallback)reqCallback onRespCallback:(respCallback)respCallback;
 
 //注册微信支付
 - (BOOL)registerWithAppID:(NSString *)appId universalLink:(NSString *)universalLink;
