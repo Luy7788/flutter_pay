@@ -18,8 +18,60 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wechat</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wx028fa00c51461c6b</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>alipay</string>
+		<string>alipayshare</string>
+		<string>wechat</string>
+		<string>weixin</string>
+		<string>weixinULAPI</string>
+		<string>sinaweibohd</string>
+		<string>sinaweibo</string>
+		<string>sinaweibosso</string>
+		<string>weibosdk</string>
+		<string>weibosdk2.5</string>
+		<string>mqqopensdklaunchminiapp</string>
+		<string>mqqopensdkminiapp</string>
+		<string>mqqapi</string>
+		<string>mqq</string>
+		<string>mqqOpensdkSSoLogin</string>
+		<string>mqqconnect</string>
+		<string>tim</string>
+		<string>timapi</string>
+		<string>timopensdkfriend</string>
+		<string>timwpa</string>
+		<string>timgamebindinggroup</string>
+		<string>timapiwallet</string>
+		<string>timOpensdkSSoLogin</string>
+		<string>wtlogintim</string>
+		<string>timopensdkgrouptribeshare</string>
+		<string>timopensdkapiV4</string>
+		<string>timgamebindinggroup</string>
+		<string>timopensdkdataline</string>
+		<string>wtlogintimV1</string>
+		<string>timapiV1</string>
+		<string>tmall</string>
+		<string>tbopen</string>
+		<string>jdlogin</string>
+		<string>openApp.jdMobile</string>
+		<string>openapp.jdmobile</string>
+		<string>baidumap</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
