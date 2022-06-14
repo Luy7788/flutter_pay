@@ -33,6 +33,10 @@
     return _instance;
 }
 
+- (void)init{
+    
+}
+
 - (void)saveUserGoodsCode:(NSString *)code {
     if (code == nil) {
         [[NSUserDefaults standardUserDefaults] setValue:@"" forKey:kAppPayUnFinishOrderKey];
@@ -58,7 +62,7 @@
         return NO;
     }
 #else
-    return true;
+    return YES;
 #endif
 }
 
