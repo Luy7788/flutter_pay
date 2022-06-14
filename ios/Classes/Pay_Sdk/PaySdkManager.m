@@ -58,7 +58,7 @@
         return NO;
     }
 #else
-    return true;
+    return YES;
 #endif
 }
 

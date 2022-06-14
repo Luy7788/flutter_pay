@@ -29,8 +29,16 @@ FlutterMethodChannel *_methodChannel;
     
     NSLog(@"flutter_pay::call.method %@", call.method);
     NSLog(@"flutter_pay::call.arguments %@", call.arguments);
-    
-    if([@"IapPayAction" isEqualToString:call.method]) {
+
+    if([@"init" isEqualToString:call.method]) {
+        BOOL canPay = [[PaySdkManager sharedInstance] isCanPay];
+        result(@(canPay));
+    } else if ([@"iapSetup" isEqualToString:call.method]) {
+        NSDictionary *params = (NSDictionary *)call.arguments;
+        NSNumber *isSandbox = params[@"iapSandBox"];
+        [[PaySdkManager sharedInstance] setupIap:isSandbox.boolValue];
+        result(@YES);
+    } else if([@"IapPayAction" isEqualToString:call.method]) {
         //调起iap支付
         NSDictionary *params = (NSDictionary *)call.arguments;
         NSString *productId = (params[@"goodsCode"] != nil) ? params[@"goodsCode"] : @"testDiamond1";
@@ -56,11 +64,6 @@ FlutterMethodChannel *_methodChannel;
         result(@YES);
     } else if ([@"getPlatformVersion" isEqualToString:call.method]) {
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
-    } else if ([@"iapSetup" isEqualToString:call.method]) {
-        NSDictionary *params = (NSDictionary *)call.arguments;
-        NSNumber *isSandbox = params[@"iapSandBox"];
-        [[PaySdkManager sharedInstance] setupIap:isSandbox.boolValue];
-        result(@YES);
     } else {
         result(FlutterMethodNotImplemented);
     }
