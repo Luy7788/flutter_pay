@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelpay.PayResp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -100,8 +101,10 @@ public class FlutterChannelHelper implements EventChannel.StreamHandler {
 
     public void postWxPayResult(BaseResp resp) {
         final Map<String, Object> result = new HashMap<>();
-        result.put("code", resp.errCode);
-        result.put("msg", resp.errStr);
+        final PayResp payResp = (PayResp) resp;
+        result.put("code", payResp.errCode);
+        result.put("msg", payResp.errStr);
+        result.put("returnKey", payResp.returnKey);
         System.out.println("==========================");
         System.out.println(result.toString());
 //        channelPostResult("wxPayResult", result);

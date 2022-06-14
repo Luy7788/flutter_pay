@@ -118,6 +118,7 @@ class FlutterPay {
 
         //微信支付结果回调
         case "wxPayResult":
+          //返回code、msg、returnKey
           Map<String, dynamic> result = Map<String, dynamic>.from(call.arguments);
           int code = result['code'] ?? 0;
           if (_wechatPayCallback != null) {
