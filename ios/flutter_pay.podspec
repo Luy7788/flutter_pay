@@ -21,9 +21,14 @@ A new Flutter Pay plugin.
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
-#  s.frameworks  = "Foundation", 'StoreKit'
-  s.frameworks  = "Foundation"
   s.dependency 'WechatOpenSDK', '~> 1.8.7.1'
   s.static_framework = true
-
+#  s.frameworks  = "Foundation", 'StoreKit'
+  s.frameworks = ["Foundation", "SystemConfiguration", "CoreTelephony"]
+  s.libraries = ["z", "sqlite3.0", "c++"]
+  s.pod_target_xcconfig = {
+#    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES'
+#    'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
+#    'OTHER_SWIFT_FLAGS' => '-Xcc -Wno-error=non-modular-include-in-framework-module'
+  }
 end

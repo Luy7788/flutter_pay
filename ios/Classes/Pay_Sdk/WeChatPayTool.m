@@ -7,8 +7,9 @@
 
 #import "WeChatPayTool.h"
 #import "PaySdkManager.h"
+#import "WXApi.h"
 
-@interface WeChatPayTool ()
+@interface WeChatPayTool () <WXApiDelegate>
 
 @property (nonatomic, copy) reqCallback _reqCallback;
 @property (nonatomic, copy) respCallback _respCallback;

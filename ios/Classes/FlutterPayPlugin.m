@@ -10,6 +10,7 @@
 
 #import "PaySdkManager.h"
 #import "WeChatPayTool.h"
+#import "WXApi.h"
 
 FlutterMethodChannel *_methodChannel;
 
@@ -76,7 +77,18 @@ FlutterMethodChannel *_methodChannel;
     } else if ([@"payWithWechat" isEqualToString:call.method]){
         //调起微信支付
         [[PaySdkManager sharedInstance] wechatPayAction:call.arguments invokeCompletion:^(BOOL success) {
-            result(@(success));
+            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//            SUCCESS(200, "ok"),
+//            DEFAULT_ERROR(300, "客户端内部错误"),
+//            SDK_NOT_INIT(301, "SDK未初始化"),
+            if (success == true) {
+                dict[@"code"] = @200;
+                dict[@"msg"] = @"ok";
+            } else {
+                dict[@"code"] = @300;
+                dict[@"msg"] = @"客户端内部错误";
+            }
+            result(dict);
         } payResult:^(int code, NSString * _Nonnull msg, NSString * _Nonnull returnKey) {
             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
             dict[@"msg"] = msg;

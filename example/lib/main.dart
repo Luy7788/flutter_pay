@@ -23,6 +23,16 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    FlutterPay.initConfig(
+      appId: "com.fw.hxfwFlutter",
+      universalLink: "",
+      iapLaunchCheckout: (res) {
+        debugPrint("iapLaunchCheckout :${res.toJson()}");
+      },
+      wechatPayResult: (res) {
+        debugPrint("wechatPayResult :$res");
+      },
+    );
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
