@@ -25,15 +25,17 @@ class FlutterPay {
     bool isIapSandBox = false,
     void Function(IapResult result)? iapLaunchCheckout,
     void Function(bool success)? wechatPayResult,
-    String? appId,
+    String? wehatAppId,
+    String? aliPayAppId,
     String? universalLink,
   }) {
     methodListener();
     _iapLaunchCallback = iapLaunchCheckout;
     _wechatPayCallback = wechatPayResult;
     var argument = {
-      "appId": appId,
-      "universalLink": universalLink,
+      "wehatAppId": wehatAppId ?? "",
+      "aliPayAppId": aliPayAppId ?? "",
+      "universalLink": universalLink ?? "",
     };
     _channel.invokeMethod('init', argument).then((value) {
       if (Platform.isIOS == true) {

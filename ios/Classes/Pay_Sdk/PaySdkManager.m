@@ -38,9 +38,9 @@
 #pragma mark - Wechat
 - (BOOL)initSDK:(NSDictionary *)argument {
     //向微信注册
-    NSString *appId = argument[@"appId"];
+    NSString *wehatAppId = argument[@"wehatAppId"];
     NSString *universalLink = argument[@"universalLink"];
-    return [[WeChatPayTool sharedInstance] registerWithAppID:appId universalLink:universalLink];
+    return [[WeChatPayTool sharedInstance] registerWithAppID:wehatAppId universalLink:universalLink];
 }
 
 - (void)wechatPayAction:(NSDictionary *)argument

@@ -3,18 +3,15 @@ version '1.0'
 
 buildscript {
     repositories {
-        maven { url "https://oss.sonatype.org/content/groups/public" }
-        maven {
-            url 'https://maven.aliyun.com/repository/google'
-        }
-        maven {
-            url 'https://maven.aliyun.com/repository/jcenter'
-        }
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public'
-        }
+//        maven { url "https://oss.sonatype.org/content/groups/public" }
 //        maven {
-//            url "http://mvn.mob.com/android"
+//            url 'https://maven.aliyun.com/repository/google'
+//        }
+//        maven {
+//            url 'https://maven.aliyun.com/repository/jcenter'
+//        }
+//        maven {
+//            url 'http://maven.aliyun.com/nexus/content/groups/public'
 //        }
         google()
         jcenter()
@@ -29,18 +26,15 @@ buildscript {
 
 rootProject.allprojects {
     repositories {
-        maven { url "https://oss.sonatype.org/content/groups/public" }
-        maven {
-            url 'https://maven.aliyun.com/repository/google'
-        }
-        maven {
-            url 'https://maven.aliyun.com/repository/jcenter'
-        }
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public'
-        }
+//        maven { url "https://oss.sonatype.org/content/groups/public" }
 //        maven {
-//            url "http://mvn.mob.com/android"
+//            url 'https://maven.aliyun.com/repository/google'
+//        }
+//        maven {
+//            url 'https://maven.aliyun.com/repository/jcenter'
+//        }
+//        maven {
+//            url 'http://maven.aliyun.com/nexus/content/groups/public'
 //        }
         google()
         jcenter()
@@ -66,5 +60,5 @@ dependencies {
 //    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
 //    implementation 'com.google.code.gson:gson:2.8.6'
 //    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation files("libs/alipaySdk-15.7.9-20200727142846.aar")
+//    implementation files("libs/alipaySdk-15.7.9-20200727142846.aar")
 }

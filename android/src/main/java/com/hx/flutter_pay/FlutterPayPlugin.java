@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import com.hx.flutter_pay.pay.FlutterChannelHelper;
 import com.hx.flutter_pay.pay.PayManager;
 
+import java.util.Map;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -60,8 +62,12 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
 
         switch (call.method) {
-            case "init":
-                PayManager.init(this.context);
+            case "init": {
+                Map<String, Object> paramMap = (Map<String, Object>) call.arguments;
+                String wehatAppId = (String) paramMap.get("wehatAppId");
+                String aliPayAppId = (String) paramMap.get("aliPayAppId");
+                PayManager.init(this.context, wehatAppId, aliPayAppId);
+            }
                 break;
             case "getPlatformVersion":
                 result.success("Android " + android.os.Build.VERSION.RELEASE);

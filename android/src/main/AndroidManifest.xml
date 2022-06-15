@@ -2,14 +2,17 @@
   package="com.hx.flutter_pay">
     <application>
         <activity
-            android:name="com.hx.flutter_pay.pay.wechat.WXEntryActivity"
+            android:name=".pay.wechat.WXEntryActivity"
             android:launchMode="singleTask"
+            android:exported="false"
+            android:taskAffinity="${applicationId}"
             android:theme="@style/DisablePreviewTheme" />
         <activity-alias
-            android:name="${applicationId}.wxapi.WXEntryActivity"
+            android:name="${applicationId}.pay.wechat.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:targetActivity="com.hx.flutter_pay.pay.wechat.WXEntryActivity"
+            android:targetActivity=".pay.wechat.WXEntryActivity"
+            android:taskAffinity="${applicationId}"
             android:theme="@style/DisablePreviewTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -19,10 +22,10 @@
         </activity-alias>
 
         <activity-alias
-            android:name="${applicationId}.wxapi.WXPayEntryActivity"
+            android:name="${applicationId}.pay.wechat.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleInstance"
-            android:targetActivity="com.hx.flutter_pay.pay.wechat.WXEntryActivity"
+            android:targetActivity=".pay.wechat.WXEntryActivity"
             android:theme="@style/DisablePreviewTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

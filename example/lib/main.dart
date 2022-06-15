@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initPlatformState();
     FlutterPay.initConfig(
-      appId: "com.fw.hxfwFlutter",
+      wehatAppId: "com.fw.hxfwFlutter",
       universalLink: "",
       iapLaunchCheckout: (res) {
         debugPrint("iapLaunchCheckout :${res.toJson()}");

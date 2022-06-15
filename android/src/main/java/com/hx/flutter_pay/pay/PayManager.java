@@ -2,8 +2,6 @@ package com.hx.flutter_pay.pay;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -11,10 +9,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.alipay.sdk.app.EnvUtils;
-import com.alipay.sdk.app.PayTask;
 import com.hx.flutter_pay.pay.model.FlutterResult;
 import com.hx.flutter_pay.pay.util.MapUtil;
+import com.hx.flutter_pay.pay.wechat.handler.WxApiHandler;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -23,6 +20,9 @@ import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+
+//import com.alipay.sdk.app.EnvUtils;
+//import com.alipay.sdk.app.PayTask;
 
 public class PayManager {
     private Context context;
@@ -36,6 +36,8 @@ public class PayManager {
     private Handler handler = new Handler(Looper.getMainLooper());
 
     private Activity activity;
+
+    public WxApiHandler wechatHandle;
 
     private static final String TAG = "WxApiManager";
 
@@ -55,42 +57,47 @@ public class PayManager {
         return ManagerHolder.INSTANCE;
     }
 
-    public static void init(Context context) {
-        ManagerHolder.INSTANCE.initApi(context);
+    public static void init(Context context, String wxAppId, String aliAppId) {
+        ManagerHolder.INSTANCE.initApi(context, wxAppId, aliAppId);
     }
 
-    private void initApi(Context context) {
+    private void initApi(Context context, String wxAppId, String aliAppId) {
         this.context = context;
-        wxAppId = this.getMetaData("com.wechat.appId");
-        api = WXAPIFactory.createWXAPI(context, wxAppId, false);
+        this.wxAppId = wxAppId;//this.getMetaData("com.wechat.appId");
+//        this.api = WXAPIFactory.createWXAPI(context, wxAppId, true);
+        this.api = WXAPIFactory.createWXAPI(context, wxAppId, false);
         // 将该app注册到微信
-        api.registerApp(wxAppId);
-        alipayAppId = this.getMetaData("com.alipay.appId");
+        this.api.registerApp(wxAppId);
+        this.alipayAppId = aliAppId;//this.getMetaData("com.alipay.appId");
     }
 
     public void initActivity(Activity activity) {
         this.activity = activity;
     }
 
-
-    private String getMetaData(String key) {
-        if (this.context == null) {
-            throw new NullPointerException("context is null");
-        }
-        String value = "";
-        try {
-            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),
-                    PackageManager.GET_META_DATA);
-            Object fieldValue = appInfo.metaData.get(key);
-            if (fieldValue == null) {
-                throw new NullPointerException("appId is invalid");
-            }
-            value = fieldValue.toString();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return value;
+    /*设置微信回调*/
+    public void setWechatHandle(WxApiHandler handle) {
+        this.wechatHandle = handle;
     }
+
+//    private String getMetaData(String key) {
+//        if (this.context == null) {
+//            throw new NullPointerException("context is null");
+//        }
+//        String value = "";
+//        try {
+//            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),
+//                    PackageManager.GET_META_DATA);
+//            Object fieldValue = appInfo.metaData.get(key);
+//            if (fieldValue == null) {
+//                throw new NullPointerException("appId is invalid");
+//            }
+//            value = fieldValue.toString();
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return value;
+//    }
 
     //获取value
     public String getWxAppId() {
@@ -149,44 +156,44 @@ public class PayManager {
 
     //调起支付
     public void payWithAlipay(final String payInfo, boolean isSandbox, final MethodChannel.Result callback) {
-
-        if (this.activity == null) {
-            callback.success(FlutterResult.fail(-1, "sdk 未就绪！"));
-            return;
-        }
-        //沙箱环境
-        if (isSandbox) {
-            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
-        }
-
-        final Activity activity = this.activity;
-        Runnable payRunnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    PayTask alipay = new PayTask(activity);
-                    final Map<String, String> result = alipay.payV2(payInfo, true);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.success(result);
-                        }
-                    });
-
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.success(FlutterResult.fail(-1, e.getMessage()));
-                        }
-                    });
-                }
-            }
-        };
-
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
+//
+//        if (this.activity == null) {
+//            callback.success(FlutterResult.fail(-1, "sdk 未就绪！"));
+//            return;
+//        }
+//        //沙箱环境
+//        if (isSandbox) {
+//            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+//        }
+//
+//        final Activity activity = this.activity;
+//        Runnable payRunnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    PayTask alipay = new PayTask(activity);
+//                    final Map<String, String> result = alipay.payV2(payInfo, true);
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            callback.success(result);
+//                        }
+//                    });
+//
+//                } catch (final Exception e) {
+//                    e.printStackTrace();
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            callback.success(FlutterResult.fail(-1, e.getMessage()));
+//                        }
+//                    });
+//                }
+//            }
+//        };
+//
+//        Thread payThread = new Thread(payRunnable);
+//        payThread.start();
     }
 
 }

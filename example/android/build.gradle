@@ -10,9 +10,6 @@ buildscript {
         maven {
             url 'http://maven.aliyun.com/nexus/content/groups/public'
         }
-//        maven {
-//            url "http://mvn.mob.com/android"
-//        }
         google()
         jcenter()
         mavenLocal()
