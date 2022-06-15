@@ -53,18 +53,18 @@
         }];
         //务必在调用自检函数前注册
         bool result = [WXApi registerApp:appId universalLink:universalLink];
-        //调用自检函数
-        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
-            //        WXULCheckStep值说明:
-            //        step = WXULCheckStepParams: 参数检查
-            //        step = WXULCheckStepSystemVersion: 当前系统版本检查
-            //        step = WXULCheckStepWechatVersion: 微信客户端版本检查
-            //        step = WXULCheckStepSDKInnerOperation: 微信 SDK 内部操作检查
-            //        step = WXULCheckStepLaunchWechat: App拉起微信检查
-            //        step = WXULCheckStepBackToCurrentApp: 由微信返回当前 App 检查
-            //        step = WXULCheckStepFinal: 最终检查
-            NSLog(@"%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
-        }];
+//        //调用自检函数
+//        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+//            //        WXULCheckStep值说明:
+//            //        step = WXULCheckStepParams: 参数检查
+//            //        step = WXULCheckStepSystemVersion: 当前系统版本检查
+//            //        step = WXULCheckStepWechatVersion: 微信客户端版本检查
+//            //        step = WXULCheckStepSDKInnerOperation: 微信 SDK 内部操作检查
+//            //        step = WXULCheckStepLaunchWechat: App拉起微信检查
+//            //        step = WXULCheckStepBackToCurrentApp: 由微信返回当前 App 检查
+//            //        step = WXULCheckStepFinal: 最终检查
+//            NSLog(@"step:%@, result:%u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+//        }];
         return result;
     } else {
         return [WXApi registerApp:appId universalLink:universalLink];
