@@ -16,6 +16,7 @@ import com.hx.flutter_pay.pay.model.FlutterResult;
 import com.hx.flutter_pay.pay.util.MapUtil;
 import com.hx.flutter_pay.pay.wechat.handler.WxApiHandler;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -92,6 +93,12 @@ public class PayManager {
         this.wechatHandle = handle;
     }
 
+    public void wechatOnResp(BaseResp resp) {
+        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            FlutterChannelHelper.getInstance().postWxPayResult(resp);
+        }
+    }
+
 //    private String getMetaData(String key) {
 //        if (this.context == null) {
 //            throw new NullPointerException("context is null");
@@ -161,9 +168,7 @@ public class PayManager {
                     result.success(FlutterResult.fail(-1, "调用微信支付失败"));
                 }
             });
-
         }
-
     }
 
     //调起支付
