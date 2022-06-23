@@ -88,11 +88,20 @@ public class PayManager {
         this.activity = activity;
     }
 
-    /*设置微信回调*/
+    /*设置微信回调
+    * 如果外部工程需要获取插件内的微信回调使用该方法*/
     public void setWechatHandle(WxApiHandler handle) {
         this.wechatHandle = handle;
     }
 
+    /*设置微信api方法
+    * 如果外部工程创建过IWXAPI，则传进来给插件用*/
+    public void setWxAPI(IWXAPI api) {
+        this.api = api;
+    }
+
+    /*设置微信请求onResp
+    * 如果外部工程依赖微信onResp方法，则把onResp传进来*/
     public void wechatOnResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             FlutterChannelHelper.getInstance().postWxPayResult(resp);
