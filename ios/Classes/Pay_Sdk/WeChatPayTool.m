@@ -46,7 +46,7 @@
 }
 
 - (BOOL)registerWithAppID:(NSString *)appId universalLink:(NSString *)universalLink {
-    if (DEBUG) {
+#if DEBUG
         //在 register 之前打开 log , 后续可以根据 log 排查问题
         [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
             NSLog(@"WeChatSDK: %@", log);
@@ -66,9 +66,9 @@
 //            NSLog(@"step:%@, result:%u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
 //        }];
         return result;
-    } else {
+#else
         return [WXApi registerApp:appId universalLink:universalLink];
-    }
+#endif
 }
 
 - (void)setupOnReqCallback:(reqCallback)reqCallback
