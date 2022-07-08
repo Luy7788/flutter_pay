@@ -132,7 +132,7 @@ class FlutterPay {
         case "wxPayResult":
           //返回code、msg、returnKey
           Map<String, dynamic> result = Map<String, dynamic>.from(call.arguments);
-          int code = result['code'] ?? 0;
+          int code = result['code'] ?? -2; //0成功|-2用户取消|-1错误
           if (_wechatPayCallback != null) {
             _wechatPayCallback!(code == 0);
           }
