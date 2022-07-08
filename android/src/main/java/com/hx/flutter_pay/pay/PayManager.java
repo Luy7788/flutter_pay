@@ -12,6 +12,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.alipay.sdk.app.EnvUtils;
+import com.alipay.sdk.app.PayTask;
+import com.hx.flutter_pay.pay.alipay.PayResult;
 import com.hx.flutter_pay.pay.model.FlutterResult;
 import com.hx.flutter_pay.pay.util.MapUtil;
 import com.hx.flutter_pay.pay.wechat.handler.WxApiHandler;
@@ -25,9 +28,6 @@ import java.util.Map;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-
-//import com.alipay.sdk.app.EnvUtils;
-//import com.alipay.sdk.app.PayTask;
 
 public class PayManager {
     private Context context;
@@ -68,7 +68,7 @@ public class PayManager {
 
     private void initApi(Context context, final String wxAppId, String aliAppId) {
         this.context = context;
-        this.wxAppId = wxAppId;//this.getMetaData("com.wechat.appId");
+        this.wxAppId = wxAppId;
 //        this.api = WXAPIFactory.createWXAPI(context, wxAppId, true);
         this.api = WXAPIFactory.createWXAPI(context, wxAppId, false);
         // 将该app注册到微信
@@ -81,7 +81,7 @@ public class PayManager {
                 api.registerApp(wxAppId);
             }
         }, new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
-        this.alipayAppId = aliAppId;//this.getMetaData("com.alipay.appId");
+        this.alipayAppId = aliAppId;
     }
 
     public void initActivity(Activity activity) {
@@ -108,25 +108,6 @@ public class PayManager {
         }
     }
 
-//    private String getMetaData(String key) {
-//        if (this.context == null) {
-//            throw new NullPointerException("context is null");
-//        }
-//        String value = "";
-//        try {
-//            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),
-//                    PackageManager.GET_META_DATA);
-//            Object fieldValue = appInfo.metaData.get(key);
-//            if (fieldValue == null) {
-//                throw new NullPointerException("appId is invalid");
-//            }
-//            value = fieldValue.toString();
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        return value;
-//    }
-
     //获取value
     public String getWxAppId() {
         return this.wxAppId;
@@ -143,7 +124,6 @@ public class PayManager {
             result.success(FlutterResult.fail(-1, "wechat api is null"));
             return;
         }
-
 
         Map<String, Object> paramMap = (Map<String, Object>) call.arguments;
         Log.i(TAG, "pay with wechat");
@@ -180,46 +160,61 @@ public class PayManager {
         }
     }
 
-    //调起支付
+    /* 调起支付
+    payInfo ：App 支付请求参数字符串，主要包含商家的订单信息，key=value 形式，以 & 连接。
+    * */
     public void payWithAlipay(final String payInfo, boolean isSandbox, final MethodChannel.Result callback) {
-//
-//        if (this.activity == null) {
-//            callback.success(FlutterResult.fail(-1, "sdk 未就绪！"));
-//            return;
-//        }
-//        //沙箱环境
-//        if (isSandbox) {
-//            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
-//        }
-//
-//        final Activity activity = this.activity;
-//        Runnable payRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    PayTask alipay = new PayTask(activity);
-//                    final Map<String, String> result = alipay.payV2(payInfo, true);
-//                    handler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            callback.success(result);
-//                        }
-//                    });
-//
-//                } catch (final Exception e) {
-//                    e.printStackTrace();
-//                    handler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            callback.success(FlutterResult.fail(-1, e.getMessage()));
-//                        }
-//                    });
-//                }
-//            }
-//        };
-//
-//        Thread payThread = new Thread(payRunnable);
-//        payThread.start();
+
+        if (this.activity == null) {
+            callback.success(FlutterResult.fail(-1, "sdk 未就绪！"));
+            return;
+        }
+        //沙箱环境
+        if (isSandbox) {
+            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+        }
+
+        final Activity activity = this.activity;
+        Runnable payRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    PayTask alipay = new PayTask(activity);
+                    final Map<String, String> result = alipay.payV2(payInfo, true);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.success(result);
+                        }
+                    });
+                    PayResult payResult = new PayResult(result);
+//                    /**
+//                     * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+//                     */
+//                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+//                    String resultStatus = payResult.getResultStatus();
+//                    // 判断resultStatus 为9000则代表支付成功
+//                    if (TextUtils.equals(resultStatus, "9000")) {
+//                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+//                        showAlert(PayDemoActivity.this, getString(R.string.pay_success) + payResult);
+//                    } else {
+//                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+//                        showAlert(PayDemoActivity.this, getString(R.string.pay_failed) + payResult);
+//                    }
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.success(FlutterResult.fail(-1, e.getMessage()));
+                        }
+                    });
+                }
+            }
+        };
+
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
     }
 
 }

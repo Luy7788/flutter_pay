@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'model/ali_pay_result.dart';
 import 'model/wx_pay_request.dart';
 import 'model/iap_result.dart';
 import 'model/channel_result.dart';
@@ -58,10 +59,14 @@ class FlutterPay {
 
   ///调起支付宝支付
   ///ChannelResult 返回调起结果,非支付结果
-  static Future<ChannelResult> payWithAliPay(String payStr) async {
-    dynamic _temp = await _channel.invokeMethod("payWithAlipay", payStr);
+  static Future<AliPayResult> payWithAliPay(String payInfo, {bool? isSandbox}) async {
+    var _data = {
+      "payInfo": payInfo,
+      "isSandbox": isSandbox ?? false
+    };
+    dynamic _temp = await _channel.invokeMethod("payWithAlipay", _data);
     Map<String, dynamic> _result = Map<String, dynamic>.from(_temp);
-    ChannelResult result = ChannelResult.fromJson(_result);
+    AliPayResult result = AliPayResult.fromJson(_result);
     return result;
   }
 

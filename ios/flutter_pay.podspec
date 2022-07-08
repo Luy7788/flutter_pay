@@ -21,7 +21,8 @@ A new Flutter Pay plugin.
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
-  s.dependency 'WechatOpenSDK', '~> 1.8.7.1'
+#   s.dependency 'WechatOpenSDK', '~> 1.8.7.1'
+  s.dependency 'AlipaySDK-iOS', '15.8.10'
   s.static_framework = true
 #  s.frameworks  = "Foundation", 'StoreKit'
   s.frameworks = ["Foundation", "SystemConfiguration", "CoreTelephony"]

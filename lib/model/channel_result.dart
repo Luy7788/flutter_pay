@@ -1,4 +1,4 @@
-/*调用支付时的回调*/
+/*调起结果,非支付结果*/
 class ChannelResult {
   int? code;
   String? msg;

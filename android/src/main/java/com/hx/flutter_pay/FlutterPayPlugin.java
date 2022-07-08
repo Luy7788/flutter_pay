@@ -76,8 +76,10 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
                 PayManager.getInstance().payWithWechat(call, result);
                 break;
             case "payWithAlipay":
-                String payInfo = (String) call.arguments;
-                PayManager.getInstance().payWithAlipay(payInfo, true, result);
+                Map<String, Object> paramMap = (Map<String, Object>) call.arguments;
+                String payInfo = (String) paramMap.get("payInfo");
+                boolean isSandbox = (boolean) paramMap.get("isSandbox");
+                PayManager.getInstance().payWithAlipay(payInfo, isSandbox, result);
                 break;
             default:
                 result.notImplemented();
