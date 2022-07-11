@@ -16,12 +16,14 @@ typedef void(^PayFinifshBlock)(NSString *goodsCode,
                                NSDictionary * _Nullable params);
 
 typedef void(^WeChatPayBlock)(int code, NSString *msg, NSString *returnKey);
+typedef void(^AliPayBlock)(NSDictionary *resultDic);
 
 @interface PaySdkManager : NSObject
 
 + (instancetype)sharedInstance;
 
 #pragma mark - Wechat
+
 - (BOOL)initSDK:(NSDictionary *)argument;
 
 - (void)wechatPayAction:(NSDictionary *)argument
@@ -30,7 +32,14 @@ typedef void(^WeChatPayBlock)(int code, NSString *msg, NSString *returnKey);
 
 - (void)wechatPayResult:(int)code msg:(NSString *)message returnKey:(NSString *)returnKey;
 
+#pragma mark - Alipay
+
+- (void)aliPayAction:(NSDictionary *)argument payResult:(AliPayBlock)payResult;
+
+- (void)aliPayprocessOrder:(NSURL *)url;
+
 #pragma mark - IAP
+
 - (BOOL)isCanPay;
 
 - (void)setupIap:(bool)isSandBox;

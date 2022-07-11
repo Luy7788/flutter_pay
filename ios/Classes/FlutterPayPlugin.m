@@ -96,6 +96,11 @@ FlutterMethodChannel *_methodChannel;
             dict[@"code"] = @(code);
             [_methodChannel invokeMethod:@"wxPayResult" arguments:dict];
         }];
+    } else if ([@"payWithAlipay" isEqualToString:call.method]) {
+        //调起支付宝支付
+        [[PaySdkManager sharedInstance] aliPayAction:call.arguments payResult:^(NSDictionary * _Nonnull resultDic) {
+            result(resultDic);
+        }];
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -116,23 +121,26 @@ FlutterMethodChannel *_methodChannel;
     return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
 }
 
-- (BOOL)application:(UIApplication *)application
-              openURL:(NSURL *)url
-    sourceApplication:(NSString *)sourceApplication
-           annotation:(id)annotation {
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([url.host isEqualToString:@"safepay"]) {
+        //跳转支付宝钱包进行支付，处理支付结果
+        [[PaySdkManager sharedInstance] aliPayprocessOrder:url];
+        return YES;
+    }
     return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
 }
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-            options:
-                (NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options: (NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    if ([url.host isEqualToString:@"safepay"]) {
+     //跳转支付宝钱包进行支付，处理支付结果
+     [[PaySdkManager sharedInstance] aliPayprocessOrder:url];
+     return YES;
+    }
     return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
 }
 
-- (BOOL)application:(UIApplication *)application
-    continueUserActivity:(NSUserActivity *)userActivity
-      restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler {
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler {
     return [WXApi handleOpenUniversalLink:userActivity delegate:WeChatPayTool.sharedInstance];
 }
 

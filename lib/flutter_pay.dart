@@ -12,6 +12,7 @@ class FlutterPay {
 
   static Function(IapResult result)? _iapLaunchCallback;
   static Function(bool success)? _wechatPayCallback;
+  static String _appScheme = "";
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
@@ -21,6 +22,10 @@ class FlutterPay {
   /*初始化方法
   * iapLaunchCheckout IAP支付APP启动检查回调
   * wechatPayResult 微信支付结果回调
+  * wehatAppId 微信id
+  * aliPayAppId 支付宝id
+  * appScheme iOS配置的urlScheme
+  * universalLink iOS配置的universalLink
   * */
   static void initConfig({
     bool isIapSandBox = false,
@@ -28,16 +33,19 @@ class FlutterPay {
     void Function(bool success)? wechatPayResult,
     String? wehatAppId,
     String? aliPayAppId,
+    String? appScheme,
     String? universalLink,
   }) {
     methodListener();
     _iapLaunchCallback = iapLaunchCheckout;
     _wechatPayCallback = wechatPayResult;
     var argument = {
+      "appScheme": appScheme ?? "",
       "wehatAppId": wehatAppId ?? "",
       "aliPayAppId": aliPayAppId ?? "",
       "universalLink": universalLink ?? "",
     };
+    _appScheme = appScheme ?? "";
     _channel.invokeMethod('init', argument).then((value) {
       if (Platform.isIOS == true) {
         Map _temp = {};
@@ -62,6 +70,7 @@ class FlutterPay {
   static Future<AliPayResult> payWithAliPay(String payInfo, {bool? isSandbox}) async {
     var _data = {
       "payInfo": payInfo,
+      "appScheme": _appScheme,
       "isSandbox": isSandbox ?? false
     };
     dynamic _temp = await _channel.invokeMethod("payWithAlipay", _data);

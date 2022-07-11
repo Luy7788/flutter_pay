@@ -8,6 +8,8 @@
 #import "PaySdkManager.h"
 #import "InAppPurTool.h"
 #import "WeChatPayTool.h"
+#import "AlipaySDK/AlipaySDK.h"
+//#import <AlipaySDK/AlipaySDK.h>
 
 #define kAppPayUnFinishOrderKey @"UnFinishOrder"
 
@@ -21,6 +23,7 @@
 //@property (nonatomic, copy) NSString *applicationUsername;
 @property (nonatomic, copy) PayFinifshBlock finishBlock;
 @property (nonatomic, copy) WeChatPayBlock wechatResult;
+@property (nonatomic, copy) AliPayBlock aliPayResult;
 
 @end
 
@@ -35,7 +38,8 @@
     return _instance;
 }
 
-#pragma mark - Wechat
+#pragma mark - WechatPay
+
 - (BOOL)initSDK:(NSDictionary *)argument {
     //向微信注册
     NSString *wehatAppId = argument[@"wehatAppId"];
@@ -66,6 +70,31 @@
     if (self.wechatResult != nil) {
         self.wechatResult(code, message, returnKey);
     }
+}
+
+#pragma mark - Alipay
+
+- (void)aliPayAction:(NSDictionary *)argument
+              payResult:(AliPayBlock)payResult {
+    NSString* orderString = argument[@"payInfo"];
+    NSString* appScheme = argument[@"appScheme"];
+    self.aliPayResult = payResult;
+    // NOTE: 调用支付结果开始支付
+    __weak __typeof(self)weakSelf = self;
+   [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+       if (weakSelf.aliPayResult) {
+           weakSelf.aliPayResult(resultDic);
+       }
+   }];
+}
+
+- (void)aliPayprocessOrder:(NSURL *)url {
+    __weak __typeof(self)weakSelf = self;
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        if (weakSelf.aliPayResult) {
+            weakSelf.aliPayResult(resultDic);
+        }
+    }];
 }
 
 #pragma mark - IAP
