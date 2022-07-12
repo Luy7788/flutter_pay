@@ -44,7 +44,7 @@ public class PayManager {
 
     public WxApiHandler wechatHandle;
 
-    private static final String TAG = "WxApiManager";
+    private static final String TAG = "FlutterPayPlugin.WxApiManager";
 
     private static final class ManagerHolder {
         static PayManager INSTANCE;
@@ -126,11 +126,8 @@ public class PayManager {
         }
 
         Map<String, Object> paramMap = (Map<String, Object>) call.arguments;
-        Log.i(TAG, "pay with wechat");
-
         PayReq request = new PayReq();
         String appid = MapUtil.getString(paramMap, "appId");
-        Log.i(TAG, "pay with wechat");
         if (TextUtils.isEmpty(appid)) {
             appid = wxAppId;
         }
@@ -142,6 +139,7 @@ public class PayManager {
         request.timeStamp = MapUtil.getString(paramMap, "timeStamp");
         request.sign = MapUtil.getString(paramMap, "sign");
         boolean done = api.sendReq(request);
+        Log.i(TAG, "pay with wechat result:" + done);
         if (done) {
             handler.post(new Runnable() {
                 @Override

@@ -12,25 +12,25 @@
             android:exported="false"
             android:taskAffinity="${applicationId}"
             android:theme="@style/DisablePreviewTheme" />
+<!--        <activity-alias-->
+<!--            android:name="${applicationId}.wxapi.WXEntryActivity"-->
+<!--            android:exported="true"-->
+<!--            android:launchMode="singleTop"-->
+<!--            android:targetActivity=".pay.wechat.WXEntryActivity"-->
+<!--            android:taskAffinity="${applicationId}"-->
+<!--            android:theme="@style/DisablePreviewTheme">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <data android:scheme="sdksample" />-->
+<!--            </intent-filter>-->
+<!--        </activity-alias>-->
         <activity-alias
-            android:name="${applicationId}.pay.wechat.WXEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:targetActivity=".pay.wechat.WXEntryActivity"
-            android:taskAffinity="${applicationId}"
-            android:theme="@style/DisablePreviewTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="sdksample" />
-            </intent-filter>
-        </activity-alias>
-
-        <activity-alias
-            android:name="${applicationId}.pay.wechat.WXPayEntryActivity"
+            android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleInstance"
-            android:targetActivity=".pay.wechat.WXEntryActivity"
+            android:taskAffinity="${applicationId}"
+            android:targetActivity="com.hx.flutter_pay.pay.wechat.WXEntryActivity"
             android:theme="@style/DisablePreviewTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

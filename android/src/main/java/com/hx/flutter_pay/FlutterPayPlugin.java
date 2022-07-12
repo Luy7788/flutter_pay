@@ -98,25 +98,8 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
     @Override
     public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
         Log.i("FlutterPayPlugin", "onAttachedToActivity");
-
         this.activity = binding.getActivity();
         PayManager.getInstance().initActivity(this.activity);
-//        checkPerssion();
-//        binding.addRequestPermissionsResultListener(new PluginRegistry.RequestPermissionsResultListener() {
-//            @Override
-//            public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//                switch (requestCode) {
-//                    case mPermissionCode:
-//                        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-//                            Toast.makeText(binding.getActivity(),"已拒绝访问设备上照片及文件权限!",Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            initXXXXXX();
-//                        }
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
     }
 
     @Override

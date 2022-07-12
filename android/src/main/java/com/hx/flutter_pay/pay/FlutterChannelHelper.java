@@ -73,7 +73,7 @@ public class FlutterChannelHelper implements EventChannel.StreamHandler {
 
     public void eventSendSuccess(final Map<String, Object> result) {
         if (event == null) {
-            Log.e("eventChannel", "event channel is null");
+            Log.e("FlutterPayPlugin.eventChannel", "event channel is null");
             return;
         }
         handler.post(new Runnable() {
