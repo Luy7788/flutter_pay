@@ -110,11 +110,11 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
 
     @Override
     public void onReattachedToActivityForConfigChanges(ActivityPluginBinding activityPluginBinding) {
-        Log.e("FlutterPayPlugin", "onReattachedToActivityForConfigChanges");
+        Log.i("FlutterPayPlugin", "onReattachedToActivityForConfigChanges");
     }
 
     @Override
     public void onDetachedFromActivity() {
-        Log.e("FlutterPayPlugin", "onDetachedFromActivity");
+        Log.i("FlutterPayPlugin", "onDetachedFromActivity");
     }
 }
