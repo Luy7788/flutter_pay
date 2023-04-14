@@ -27,7 +27,8 @@ A new Flutter Pay plugin.
 #  s.frameworks  = "Foundation", 'StoreKit'
   s.frameworks = 'SystemConfiguration', 'CoreTelephony', 'QuartzCore', 'CoreText', 'CoreGraphics', 'UIKit', 'Foundation', 'CFNetwork', 'CoreMotion', 'WebKit'
   s.libraries = ["z", "sqlite3.0", "c++"]
-  s.default_subspec = 'noutdid'
+  s.default_subspec = 'utdid'
+#   s.default_subspec = 'noutdid'
 
   s.subspec 'utdid' do |sp|
     sp.resources = "Libraries/utdid/*.bundle"
