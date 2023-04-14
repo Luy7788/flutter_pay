@@ -64,9 +64,9 @@ public class FlutterPayPlugin implements FlutterPlugin, ActivityAware, MethodCal
         switch (call.method) {
             case "init": {
                 Map<String, Object> paramMap = (Map<String, Object>) call.arguments;
-                String wehatAppId = (String) paramMap.get("wehatAppId");
+                String wechatAppId = (String) paramMap.get("wechatAppId");
                 String aliPayAppId = (String) paramMap.get("aliPayAppId");
-                PayManager.init(this.context, wehatAppId, aliPayAppId);
+                PayManager.init(this.context, wechatAppId, aliPayAppId);
             }
                 break;
             case "getPlatformVersion":

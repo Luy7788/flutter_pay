@@ -22,7 +22,7 @@ class FlutterPay {
   /*初始化方法
   * iapLaunchCheckout IAP支付APP启动检查回调
   * wechatPayResult 微信支付结果回调
-  * wehatAppId 微信id
+  * wechatAppId 微信id
   * aliPayAppId 支付宝id
   * appScheme iOS配置的urlScheme
   * universalLink iOS配置的universalLink
@@ -31,7 +31,7 @@ class FlutterPay {
     bool isIapSandBox = false,
     void Function(IapResult result)? iapLaunchCheckout,
     void Function(bool success)? wechatPayResult,
-    String? wehatAppId,
+    String? wechatAppId,
     String? aliPayAppId,
     String? appScheme,
     String? universalLink,
@@ -41,7 +41,7 @@ class FlutterPay {
     _wechatPayCallback = wechatPayResult;
     var argument = {
       "appScheme": appScheme ?? "",
-      "wehatAppId": wehatAppId ?? "",
+      "wechatAppId": wechatAppId ?? "",
       "aliPayAppId": aliPayAppId ?? "",
       "universalLink": universalLink ?? "",
     };

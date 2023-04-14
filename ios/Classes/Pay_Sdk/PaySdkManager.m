@@ -42,9 +42,9 @@
 
 - (BOOL)initSDK:(NSDictionary *)argument {
     //向微信注册
-    NSString *wehatAppId = argument[@"wehatAppId"];
+    NSString *wechatAppId = argument[@"wechatAppId"];
     NSString *universalLink = argument[@"universalLink"];
-    return [[WeChatPayTool sharedInstance] registerWithAppID:wehatAppId universalLink:universalLink];
+    return [[WeChatPayTool sharedInstance] registerWithAppID:wechatAppId universalLink:universalLink];
 }
 
 - (void)wechatPayAction:(NSDictionary *)argument
