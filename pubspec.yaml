@@ -1,7 +1,7 @@
 name: flutter_pay
 description: A new Flutter Pay plugin.
 version: 0.0.1
-homepage:
+homepage: https://gitee.com/jlgithub/flutter-pay
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
