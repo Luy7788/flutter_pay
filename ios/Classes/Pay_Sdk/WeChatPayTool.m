@@ -5,6 +5,8 @@
 //  Created by Luy on 2022/6/14.
 //
 
+#ifdef WechatPay
+
 #import "WeChatPayTool.h"
 #import "PaySdkManager.h"
 #import "WXApi.h"
@@ -122,3 +124,5 @@
 }
 
 @end
+
+#endif

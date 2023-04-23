@@ -18,32 +18,32 @@ A new Flutter Pay plugin.
   s.dependency 'Flutter'
   s.platform = :ios, '10.0'
 
-  # Flutter.framework does not contain a i386 slice.
-  s.swift_version = '5.0'
-  s.dependency 'WechatOpenSDK', '~> 1.8.7.1'
-#   s.dependency 'AlipaySDK-iOS', '15.8.10'
-  s.requires_arc = true
-  s.static_framework = true
-#  s.frameworks  = "Foundation", 'StoreKit'
-  s.frameworks = 'SystemConfiguration', 'CoreTelephony', 'QuartzCore', 'CoreText', 'CoreGraphics', 'UIKit', 'Foundation', 'CFNetwork', 'CoreMotion', 'WebKit'
-  s.libraries = ["z", "sqlite3.0", "c++"]
-  s.default_subspec = 'utdid'
-#   s.default_subspec = 'noutdid'
-
-  s.subspec 'utdid' do |sp|
-    sp.resources = "Libraries/utdid/*.bundle"
-    sp.vendored_frameworks = 'Libraries/utdid/*.framework'
-  end
-
-  s.subspec 'noutdid' do |sp|
-    sp.resources = "Libraries/noutdid/*.bundle"
-    sp.vendored_frameworks = 'Libraries/noutdid/*.framework'
-  end
-
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
-#   s.pod_target_xcconfig = {
-# #    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES'
-# #    'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
-# #    'OTHER_SWIFT_FLAGS' => '-Xcc -Wno-error=non-modular-include-in-framework-module'
-#   }
+#   # Flutter.framework does not contain a i386 slice.
+#   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+#   s.swift_version = '5.0'
+#   s.frameworks  = "Foundation", 'StoreKit'
+#
+#   # Flutter.framework does not contain a i386 slice.
+#   s.swift_version = '5.0'
+#   s.dependency 'WechatOpenSDK', '~> 1.8.7.1'
+# #   s.dependency 'AlipaySDK-iOS', '15.8.10'
+#   s.requires_arc = true
+#   s.static_framework = true
+# #  s.frameworks  = "Foundation", 'StoreKit'
+#   s.frameworks = 'SystemConfiguration', 'CoreTelephony', 'QuartzCore', 'CoreText', 'CoreGraphics', 'UIKit', 'Foundation', 'CFNetwork', 'CoreMotion', 'WebKit'
+#   s.libraries = ["z", "sqlite3.0", "c++"]
+#   s.default_subspec = 'utdid'
+# #   s.default_subspec = 'noutdid'
+#
+#   s.subspec 'utdid' do |sp|
+#     sp.resources = "Libraries/utdid/*.bundle"
+#     sp.vendored_frameworks = 'Libraries/utdid/*.framework'
+#   end
+#
+#   s.subspec 'noutdid' do |sp|
+#     sp.resources = "Libraries/noutdid/*.bundle"
+#     sp.vendored_frameworks = 'Libraries/noutdid/*.framework'
+#   end
+#
+#   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
 end

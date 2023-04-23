@@ -5,6 +5,8 @@
 //  Created by Luy on 2022/6/14.
 //
 
+#ifdef WechatPay
+
 #import <Foundation/Foundation.h>
 @class BaseReq;
 @class BaseResp;
@@ -34,3 +36,5 @@ typedef void (^respCallback)(BaseResp * resp);
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

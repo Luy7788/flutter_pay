@@ -9,8 +9,11 @@
 #endif
 
 #import "PaySdkManager.h"
+
+#ifdef WechatPay
 #import "WeChatPayTool.h"
 #import "WXApi.h"
+#endif
 
 FlutterMethodChannel *_methodChannel;
 
@@ -114,11 +117,15 @@ FlutterMethodChannel *_methodChannel;
 		[self _checkoutUnfinish];
 	});
 #endif
-	return true;
+	return YES;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+#ifdef WechatPay
     return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
+#else
+    return NO;
+#endif
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -127,7 +134,12 @@ FlutterMethodChannel *_methodChannel;
         [[PaySdkManager sharedInstance] aliPayprocessOrder:url];
         return YES;
     }
+    
+#ifdef WechatPay
     return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
+#else
+    return NO;
+#endif
 }
 
 // NOTE: 9.0以后使用新API接口
@@ -137,11 +149,21 @@ FlutterMethodChannel *_methodChannel;
      [[PaySdkManager sharedInstance] aliPayprocessOrder:url];
      return YES;
     }
+    
+#ifdef WechatPay
     return [WXApi handleOpenURL:url delegate:WeChatPayTool.sharedInstance];
+#else
+    return NO;
+#endif
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler {
+    
+#ifdef WechatPay
     return [WXApi handleOpenUniversalLink:userActivity delegate:WeChatPayTool.sharedInstance];
+#else
+    return NO;
+#endif
 }
 
 - (void)_checkoutUnfinish {

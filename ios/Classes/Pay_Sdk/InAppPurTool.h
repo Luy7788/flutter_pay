@@ -5,10 +5,9 @@
 //  Created by Luy on 2020/10/29.
 //
 
-#define IapPay 1
+static NSString * _Nullable const InAppPurUploadReceiptToServerDidSuccessKey = @"InAppPurUploadReceiptToServerDidSuccess";
 
-static NSString *const InAppPurUploadReceiptToServerDidSuccessKey = @"InAppPurUploadReceiptToServerDidSuccess";
-
+#import "FlutterPayPlugin.h"
 #import <Foundation/Foundation.h>
 #import "InAppPurResult.h"
 
