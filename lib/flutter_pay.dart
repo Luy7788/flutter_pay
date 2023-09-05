@@ -25,7 +25,7 @@ class FlutterPay {
   /// appScheme iOS配置的urlScheme
   /// universalLink iOS配置的universalLink
   /// isIapSandBox 是否IAP沙箱环境
-  /// iapLaunchCheckout IAP支付APP启动检查回调
+  /// iapLaunchCheckout APP启动IAP内购检查回调,以及手动检查IAP支付回调
   /// wechatPayResult 微信支付结果回调
   /// 支付宝支付结果直接通过发起支付时返回
   static void initConfig({
@@ -84,7 +84,7 @@ class FlutterPay {
 
   /// 调起iap支付
   /// goodsCode 商品码|商品ID
-  /// 返回支付结果，仍需与接口进一步核对订单
+  /// 返回支付结果，仍需与接口进一步核对订单,验证后调用验证成功接口[finishIapPay]
   static Future<IapResult?> iapPay({String? goodsCode}) async {
     if (Platform.isIOS == false) return null;
     Map _temp = {};
@@ -99,7 +99,8 @@ class FlutterPay {
     return null;
   }
 
-  /// 验证成功调用结束iap
+  /// 调用结束Iap标志
+  /// 必须接口验证成功后！！
   static Future finishIapPay({String? goodsCode}) async {
     if (Platform.isIOS == false) return;
     Map _temp = {};
@@ -109,7 +110,8 @@ class FlutterPay {
     debugPrint('finalIapPay result: $_result');
   }
 
-  /// 手动检测
+  /// 手动进行检测支付结果，预防支付未完成(需FlutterPay.initConfig后使用)
+  /// 建议在进入钱包页面手动调用，具体看情况
   static checkOutUnFinishIap() async {
     if (Platform.isIOS == false) return;
     var result = await _channel.invokeMethod('checkOutUnFinish');
