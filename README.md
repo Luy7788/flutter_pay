@@ -19,6 +19,16 @@ flutter支付插件，集成了iOS IAP内购、微信支付、支付宝支付，
 #      ref: "alipay_noutdid"
 ```
 
+
+-  ps : 安卓工程如果需要重写WXEntryActivity，则需要在onResp内调用PayManager.getInstance().wechatOnResp，eg：
+```
+   @Override
+    public void onResp(BaseResp resp) {
+        super.onResp(resp);
+        PayManager.getInstance().wechatOnResp(resp);
+    }
+```
+
 #### 2. 初始化方法
 
 引入文件
