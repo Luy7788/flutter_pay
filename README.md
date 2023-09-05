@@ -11,10 +11,13 @@ flutter支付插件，集成了iOS IAP内购、微信支付、支付宝支付，
 
 #### 1. 工程配置
 
- Android: 
- ```
-
- ```
+```
+  flutter_pay:
+    git:
+      url: "https://gitee.com/jlgithub/flutter-pay.git"
+      ref: "IAP"
+#      ref: "alipay_noutdid"
+```
 
 #### 2. 初始化方法
 
@@ -22,6 +25,11 @@ flutter支付插件，集成了iOS IAP内购、微信支付、支付宝支付，
 
 ```
 import 'package:flutter_pay/flutter_pay.dart';
+```
+
+核心类：
+```
+FlutterPay
 ```
 
 初始化方法
@@ -33,7 +41,7 @@ import 'package:flutter_pay/flutter_pay.dart';
   /// appScheme iOS配置的urlScheme
   /// universalLink iOS配置的universalLink
   /// isIapSandBox 是否IAP沙箱环境
-  /// iapLaunchCheckout IAP支付APP启动检查回调
+  /// iapLaunchCheckout 启动后IAP内购检查回调,以及手动检查IAP支付回调
   /// wechatPayResult 微信支付结果回调
   /// 支付宝支付结果直接通过发起支付时返回
 static void initConfig({
@@ -52,7 +60,7 @@ static void initConfig({
 ```
 FlutterPay.initConfig(
       appScheme: appScheme,
-      wehatAppId: xxxx,
+      wechatAppId: xxxx,
       aliPayAppId: xxxx
       universalLink: Config.universalLink,
       iapLaunchCheckout: (result) async {
@@ -93,6 +101,7 @@ FlutterPay.initConfig(
   ///ChannelResult 返回调起结果,非支付结果
   static Future<ChannelResult> payWithWechat(WxPayRequest request)
   
+  参数：
   class WxPayRequest {
       String? appId;
       String? partnerId;
@@ -110,6 +119,16 @@ FlutterPay.initConfig(
 ```
   /// 调起iap支付
   /// goodsCode 商品码|商品ID
-  /// 返回支付结果，仍需与接口进一步核对订单
+  /// 返回支付结果，仍需与接口进一步核对订单,验证后调用验证成功接口[finishIapPay]
   static Future<IapResult?> iapPay({String? goodsCode})
+  
+  
+  /// 调用结束Iap标志
+  /// 必须接口验证成功后！！
+  static Future finishIapPay({String? goodsCode})
+  
+  
+  /// 手动进行检测支付结果，预防支付未完成(需FlutterPay.initConfig后使用)
+  /// 建议在进入钱包页面后手动调用，具体看情况使用
+  static checkOutUnFinishIap()
 ```
