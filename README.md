@@ -6,6 +6,7 @@ flutter支付插件，集成了iOS IAP内购、微信支付、支付宝支付，
 1. master 分支，包含当前所有的支付方式
 2. IAP 分支，iOS只有内购，去掉微信和支付宝。安卓依旧有微信、支付宝
 3. alipay_noutdid，处理支付宝SDK utdid冲突，如果报错utdid冲突使用这个分支，该分支保留所有支付
+4. IAP_no_wechat 分支，iOS只有内购，去掉微信和支付宝。安卓只有支付宝
 
 ## 使用说明
 
@@ -15,8 +16,8 @@ flutter支付插件，集成了iOS IAP内购、微信支付、支付宝支付，
   flutter_pay:
     git:
       url: "https://gitee.com/jlgithub/flutter-pay.git"
-      ref: "IAP"
-#      ref: "alipay_noutdid"
+      ref: "IAP_no_wechat"
+#      ref: "IAP"
 ```
 
 
