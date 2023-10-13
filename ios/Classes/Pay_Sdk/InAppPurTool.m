@@ -120,6 +120,16 @@
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
+
+- (void)clearAllTransations {
+    NSArray *pendingTrans = [[SKPaymentQueue defaultQueue] transactions];
+    for (int k = 0; k < pendingTrans.count; k++) {
+        NSLog(@"clearAllTransations %@", pendingTrans[k]);
+        [[SKPaymentQueue defaultQueue] finishTransaction:pendingTrans[k]];
+    }
+}
+
+
 //去苹果服务器请求商品
 - (void)requestProductId:(NSString *)productId{
     NSLog(@"-------------请求对应的产品信息----------------");
@@ -291,8 +301,21 @@
 
 #pragma mark - notification
 - (void)uploadReceiptToServerDidSuccessNotification:(NSNotification *)notification {
-    // 上传成功
+
+    // 上报成功
+    if (notification.object != nil && [notification.object isKindOfClass:[NSString class]]) {
+        NSString *goodsCode = (NSString*)[notification object]; 
+        NSLog(@"received restored transactions: %zd", queue.transactions.count);
+        for (SKPaymentTransaction *transaction in queue.transactions) {
+            NSString *productID = transaction.payment.productIdentifier;
+            if (goodsCode == productID) {
+                [self closeTransaction:transaction];
+                return;
+            }
+        }
+    }
     [self closeTransaction:self.currentTransaction];
+
 }
 
 
@@ -361,14 +384,36 @@
         }
         NSArray *in_app = receipt[@"in_app"];
         NSString *transaction_id;
+        NSString *product_id;
+        BOOL isArray = NO;
+        NSMutableArray *transactionArray = [[NSMutableArray alloc] init];
+        InAppPurResult *inappPurResult;
         if (in_app != nil && in_app.count > 0) {
+            if (in_app.count > 1) {
+                //是否返回多个票据
+                isArray = YES;
+            }
             for (NSDictionary *item in in_app) {
                 transaction_id = item[@"transaction_id"];
+                product_id = item[@"product_id"];
                 //服务器二次验证
-               if (self.iapCompletedBlock) {
-                   self.iapCompletedBlock([InAppPurResult resultWithResult:@"1" data:receiptData msg:@"苹果支付完成" transactionId:transaction_id]);
+                inappPurResult = [InAppPurResult resultWithResult:@"1" data:receiptData msg:@"苹果支付完成" transactionId:transaction_id];
+               if (self.iapCompletedBlock && isArray == NO) {
+                   inappPurResult.transationArray = transactionArray;
+                   self.iapCompletedBlock(inappPurResult);
+               } else {
+                  [transactionArray addObject: @{@"transaction_id":transaction_id, @"product_id":product_id}];
                }
             }
+            
+            if (isArray == YES) {
+                //多个票据的话返回数组
+                if (self.iapCompletedBlock) {   
+                   inappPurResult.transationArray = transationArray;
+                   self.iapCompletedBlock(inappPurResult);
+               } 
+            }
+
         }
     }
 }
