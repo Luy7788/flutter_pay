@@ -113,7 +113,7 @@ class FlutterPay {
 
   /// 清除所有Iap事务
   /// 仅iOS可用
-  static Future clearAllIapPay() async 
+  static Future clearAllIapPay() async {
     var _result = await _channel.invokeMethod('clearAllIapPay', {});
     debugPrint('clearAllIapPay result: $_result');
   }
