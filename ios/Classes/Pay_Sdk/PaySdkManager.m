@@ -194,7 +194,7 @@
    [dict setValue:goodsCode forKey:@"productId"];
    [dict setValue:transactionId forKey:@"transactionId"];
    [dict setValue:transactionId forKey:@"transactionCode"];
-   [dict setValue:transationArray forKey@"transationArray"];
+   [dict setValue:transationArray forKey:@"transationArray"];
 //   NSString *jsonString = [self _convertToJsonData:dict];
 //   NSLog(@"请求服务端jsonString %@", jsonString);
    NSLog(@"请求服务端params %@", dict);

@@ -303,17 +303,17 @@
 - (void)uploadReceiptToServerDidSuccessNotification:(NSNotification *)notification {
 
     // 上报成功
-    if (notification.object != nil && [notification.object isKindOfClass:[NSString class]]) {
-        NSString *goodsCode = (NSString*)[notification object]; 
-        NSLog(@"received restored transactions: %zd", queue.transactions.count);
-        for (SKPaymentTransaction *transaction in queue.transactions) {
-            NSString *productID = transaction.payment.productIdentifier;
-            if (goodsCode == productID) {
-                [self closeTransaction:transaction];
-                return;
-            }
-        }
-    }
+    //if (notification.object != nil && [notification.object isKindOfClass:[NSString class]]) {
+    //    NSString *goodsCode = (NSString*)[notification object]; 
+    //    NSLog(@"received restored transactions: %zd", [SKPaymentQueue defaultQueue].transactions.count);
+    //    for (SKPaymentTransaction *transaction in [SKPaymentQueue defaultQueue].transactions) {
+    //        NSString *productID = transaction.payment.productIdentifier;
+    //        if (goodsCode == productID) {
+    //           [self closeTransaction:transaction];
+    //            return;
+    //        }
+    //    }
+    //}
     [self closeTransaction:self.currentTransaction];
 
 }
@@ -409,7 +409,7 @@
             if (isArray == YES) {
                 //多个票据的话返回数组
                 if (self.iapCompletedBlock) {   
-                   inappPurResult.transationArray = transationArray;
+                   inappPurResult.transationArray = transactionArray;
                    self.iapCompletedBlock(inappPurResult);
                } 
             }
