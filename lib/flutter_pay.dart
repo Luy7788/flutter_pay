@@ -101,6 +101,7 @@ class FlutterPay {
 
   /// 调用结束Iap标志
   /// 必须接口验证成功后！！
+  /// 仅iOS可用
   static Future finishIapPay({String? goodsCode}) async {
     if (Platform.isIOS == false) return;
     Map _temp = {};
@@ -108,6 +109,13 @@ class FlutterPay {
     var _result = await _channel.invokeMethod('finalIapPay', _temp);
     // Map<String, dynamic> result = Map<String, dynamic>.from(_result);
     debugPrint('finalIapPay result: $_result');
+  }
+
+  /// 清除所有Iap事务
+  /// 仅iOS可用
+  static Future clearAllIapPay() async 
+    var _result = await _channel.invokeMethod('clearAllIapPay', {});
+    debugPrint('clearAllIapPay result: $_result');
   }
 
   /// 手动进行检测支付结果，预防支付未完成(需FlutterPay.initConfig后使用)

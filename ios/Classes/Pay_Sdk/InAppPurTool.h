@@ -42,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SKPaymentTransaction *)getCurrentTransaction;
 
+///清除所有订单事务
+- (void)clearAllTransations;
 
 @end
 

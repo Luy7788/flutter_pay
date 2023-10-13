@@ -50,6 +50,8 @@ typedef void(^AliPayBlock)(NSDictionary *resultDic);
 
 - (void)finishPayAction:(NSString *)goodsCode;
 
+- (void)clearAllPayAction;
+
 @end
 
 NS_ASSUME_NONNULL_END

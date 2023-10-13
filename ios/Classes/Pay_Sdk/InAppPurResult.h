@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *_Nullable msg;
 @property (strong, nonatomic) id _Nullable data;
 @property (copy, nonatomic) NSString *_Nullable transaction_id;
+@property (strong, nonatomic) NSMutableArray * transationArray;
 
 - (BOOL)isSucc;
 

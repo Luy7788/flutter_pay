@@ -51,7 +51,7 @@ FlutterMethodChannel *_methodChannel;
     } else if([@"IapPayAction" isEqualToString:call.method]) {
         //调起iap支付
         NSDictionary *params = (NSDictionary *)call.arguments;
-        NSString *productId = (params[@"goodsCode"] != nil) ? params[@"goodsCode"] : @"testDiamond1";
+        NSString *productId = (params[@"goodsCode"] != nil) ? params[@"goodsCode"] : @"";
 //        NSString *objectId = (params[@"objectId"] != nil) ? params[@"objectId"] : @"orderTestDiamond1";
         [[PaySdkManager sharedInstance] payAction:productId finish:^(NSString * _Nonnull goodsCode, NSString * _Nonnull transactionId, NSString * _Nonnull errorMsg, BOOL success, NSDictionary * _Nullable params) {
             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -65,9 +65,14 @@ FlutterMethodChannel *_methodChannel;
     } else if ([@"finalIapPay" isEqualToString:call.method]) {
         //验证成功调用结束iap
         NSDictionary *params = (NSDictionary *)call.arguments;
-        NSString *goodsCode = (params[@"goodsCode"] != nil) ? params[@"goodsCode"] : @"testDiamond1";
+        NSString *goodsCode = (params[@"goodsCode"] != nil) ? params[@"goodsCode"] : @"";
+        // NSString *transactionId = (params[@"transactionId"] != nil) ? params[@"transactionId"] : @"";
         [[PaySdkManager sharedInstance] finishPayAction:goodsCode];
         result(@YES);
+    } else if ([@"clearAllIapPay" isEqualToString:call.method]) {
+        [[PaySdkManager sharedInstance] clearAllPayAction];
+        result(@YES);
+    
     } else if ([@"checkOutUnFinish" isEqualToString:call.method]) {
         //检测检验未完成
         [self _checkoutUnfinish];

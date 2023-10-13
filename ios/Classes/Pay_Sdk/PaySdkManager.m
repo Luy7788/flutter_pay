@@ -144,7 +144,7 @@
     [self saveUserGoodsCode:goodsCode];
     [InAppPurTool hy_iapWithProductId:goodsCode applicationUsername:goodsCode finishedBlock:^(InAppPurResult * _Nonnull result) {
         if (result.isSucc) {
-            NSDictionary *params = [weakSelf _checkIsLoginAndUploadToServerWithReceipt:result.data goodsCode:goodsCode transactionId:result.transaction_id];
+            NSDictionary *params = [weakSelf _checkIsLoginAndUploadToServerWithReceipt:result.data goodsCode:goodsCode transactionId:result.transaction_id transationArray:result.transationArray];
             weakSelf.finishBlock(goodsCode, result.transaction_id, result.msg, YES, params);
         } else {
             weakSelf.finishBlock(goodsCode, result.transaction_id, result.msg, NO, nil);
@@ -156,10 +156,14 @@
 //验证成功后调用
 - (void)finishPayAction:(NSString *)goodsCode {
 #ifdef IapPay
-    [[NSNotificationCenter defaultCenter] postNotificationName:InAppPurUploadReceiptToServerDidSuccessKey object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:InAppPurUploadReceiptToServerDidSuccessKey object:goodsCode];
     [self saveUserGoodsCode:nil];
     
 #endif
+}
+
+- (void)clearAllPayAction {
+    [[InAppPurTool sharedInAppPurTool] clearAllTransations];
 }
 
 - (void)applicationIapWithFinished:(PayFinifshBlock)checkOutBlock {
@@ -171,7 +175,7 @@
             goodsCode = [weakSelf getUnFinishGoodsCode];
         }
         if (result.isSucc) {
-            NSDictionary *params = [weakSelf _checkIsLoginAndUploadToServerWithReceipt:result.data goodsCode:goodsCode transactionId:result.transaction_id];
+            NSDictionary *params = [weakSelf _checkIsLoginAndUploadToServerWithReceipt:result.data goodsCode:goodsCode transactionId:result.transaction_id transationArray:result.transationArray];
             checkOutBlock(goodsCode, result.transaction_id, result.msg, YES, params);
         } else {
             checkOutBlock(goodsCode, result.transaction_id, result.msg, NO, nil);
@@ -180,15 +184,17 @@
 #endif
 }
 
-- (NSDictionary *)_checkIsLoginAndUploadToServerWithReceipt:(NSData *)receipt goodsCode:(NSString *)goodsCode transactionId:(NSString *)transactionId {
+- (NSDictionary *)_checkIsLoginAndUploadToServerWithReceipt:(NSData *)receipt goodsCode:(NSString *)goodsCode transactionId:(NSString *)transactionId transationArray:(NSArray*)transationArray {
     
    NSLog(@"uploaReceiptToServerWithReceipt %@",receipt);
    NSString *encodeStr = [receipt base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
    [dict setValue:encodeStr forKey:@"payload"];
    [dict setValue:goodsCode forKey:@"goodsCode"];
+   [dict setValue:goodsCode forKey:@"productId"];
    [dict setValue:transactionId forKey:@"transactionId"];
    [dict setValue:transactionId forKey:@"transactionCode"];
+   [dict setValue:transationArray forKey@"transationArray"];
 //   NSString *jsonString = [self _convertToJsonData:dict];
 //   NSLog(@"请求服务端jsonString %@", jsonString);
    NSLog(@"请求服务端params %@", dict);
